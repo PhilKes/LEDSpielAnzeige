@@ -1,6 +1,6 @@
 # LEDSpielAnzeige
 ## Controller für LED Spieleanzeige (geklaut)
- ![LED Anzeige](./doc/led_anzeige_bild.jpg)
+ ![LED Anzeige](./doc/Mapping.png)
  
  ### Display
  * 2 x 8 7-Segment Anzeigen
