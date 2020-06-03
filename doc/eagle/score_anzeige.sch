@@ -15442,8 +15442,8 @@ In this library the device names are the same as the pin names of the symbols, t
 </classes>
 <parts>
 <part name="GND1" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
-<part name="IC1" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device="" package3d_urn="urn:adsk.eagle:package:30237/1"/>
-<part name="IC2" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device="" package3d_urn="urn:adsk.eagle:package:30237/1"/>
+<part name="IC1" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device="" package3d_urn="urn:adsk.eagle:package:30237/1" value="ULN2803"/>
+<part name="IC2" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device="" package3d_urn="urn:adsk.eagle:package:30237/1" value="ULN2803"/>
 <part name="IC3" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="UDN298*" device="A" package3d_urn="urn:adsk.eagle:package:30237/1" technology="1"/>
 <part name="IC4" library="maxim" library_urn="urn:adsk.eagle:library:269" deviceset="MAX7219CNG" device="" package3d_urn="urn:adsk.eagle:package:17515/1"/>
 <part name="MODUL1" library="arduino" deviceset="ARDUINO_NANO2" device=""/>
@@ -16148,7 +16148,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="D4" gate="G$1" pin="DP"/>
 <wire x1="63.5" y1="60.96" x2="71.12" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="D2" gate="G$1" pin="DP"/>
-<wire x1="71.12" y1="60.96" x2="71.12" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="60.96" x2="71.12" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="78.74" x2="71.12" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="96.52" x2="63.5" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="96.52" x2="71.12" y2="114.3" width="0.1524" layer="91"/>
 <junction x="71.12" y="96.52"/>
@@ -16177,6 +16178,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-7.62" y1="119.38" x2="5.08" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="5.08" y1="119.38" x2="5.08" y2="200.66" width="0.1524" layer="91"/>
 <junction x="-7.62" y="119.38"/>
+<pinref part="D3" gate="G$1" pin="DP"/>
+<wire x1="63.5" y1="78.74" x2="71.12" y2="78.74" width="0.1524" layer="91"/>
+<junction x="71.12" y="78.74"/>
 </segment>
 </net>
 <net name="3.3V" class="0">
@@ -17042,7 +17046,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="D12" gate="G$1" pin="DP"/>
 <wire x1="66.04" y1="-149.86" x2="73.66" y2="-149.86" width="0.1524" layer="91"/>
 <pinref part="D10" gate="G$1" pin="DP"/>
-<wire x1="73.66" y1="-149.86" x2="73.66" y2="-114.3" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="-149.86" x2="73.66" y2="-132.08" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="-132.08" x2="73.66" y2="-114.3" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="-114.3" x2="66.04" y2="-114.3" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="-114.3" x2="73.66" y2="-96.52" width="0.1524" layer="91"/>
 <junction x="73.66" y="-114.3"/>
@@ -17071,6 +17076,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-5.08" y1="-91.44" x2="7.62" y2="-91.44" width="0.1524" layer="91"/>
 <wire x1="7.62" y1="-91.44" x2="7.62" y2="-10.16" width="0.1524" layer="91"/>
 <junction x="-5.08" y="-91.44"/>
+<pinref part="D11" gate="G$1" pin="DP"/>
+<wire x1="66.04" y1="-132.08" x2="73.66" y2="-132.08" width="0.1524" layer="91"/>
+<junction x="73.66" y="-132.08"/>
 </segment>
 </net>
 <net name="N$83" class="0">
