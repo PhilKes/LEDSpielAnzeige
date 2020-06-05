@@ -4,7 +4,7 @@
 - Use ULN2803 for drain.
  
  ### Schaltplan
- ![Anzeige_Schaltplan](./ideas/#1/schaltplan.png)
+ ![Schaltplan](./ideas/No1/schaltplan.png)
  
  #### Bauteile
  
