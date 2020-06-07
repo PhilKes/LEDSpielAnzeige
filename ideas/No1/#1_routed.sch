@@ -11436,39 +11436,6 @@ Source: www.farnell.com/datasheets/247.pdf</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="supply2" urn="urn:adsk.eagle:library:372">
-<description>&lt;b&gt;Supply Symbols&lt;/b&gt;&lt;p&gt;
-GND, VCC, 0V, +5V, -5V, etc.&lt;p&gt;
-Please keep in mind, that these devices are necessary for the
-automatic wiring of the supply signals.&lt;p&gt;
-The pin name defined in the symbol is identical to the net which is to be wired automatically.&lt;p&gt;
-In this library the device names are the same as the pin names of the symbols, therefore the correct signal names appear next to the supply symbols in the schematic.&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-</packages>
-<symbols>
-<symbol name="VCC" urn="urn:adsk.eagle:symbol:26997/1" library_version="2">
-<circle x="0" y="1.27" radius="1.27" width="0.254" layer="94"/>
-<text x="-1.905" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="VCC" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="VCC" urn="urn:adsk.eagle:component:27060/1" prefix="SUPPLY" library_version="2">
-<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-<gates>
-<gate name="G$1" symbol="VCC" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="SparkFun-IC-Logic" urn="urn:adsk.eagle:library:523">
 <description>&lt;h3&gt;SparkFun Logic ICs&lt;/h3&gt;
 This library contains parts which fit into the standard logic IC families.&lt;br&gt;&lt;br&gt;
@@ -12924,7 +12891,7 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <devices>
 <device name="A" package="DIL18">
 <connects>
-<connect gate="1" pin="GND" pad="10"/>
+<connect gate="1" pin="GND" pad="9"/>
 <connect gate="1" pin="I1" pad="1"/>
 <connect gate="1" pin="I2" pad="2"/>
 <connect gate="1" pin="I3" pad="3"/>
@@ -12941,7 +12908,7 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <connect gate="1" pin="O6" pad="13"/>
 <connect gate="1" pin="O7" pad="12"/>
 <connect gate="1" pin="O8" pad="11"/>
-<connect gate="1" pin="VS" pad="9"/>
+<connect gate="1" pin="VS" pad="10"/>
 </connects>
 <package3dinstances>
 <package3dinstance package3d_urn="urn:adsk.eagle:package:16424/2"/>
@@ -12965,6 +12932,178 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="diy-modules_lm2596">
+<description>&lt;b&gt;DIY Modules for Arduino, Raspberry Pi, CubieBoard etc.&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+The library contains a list of symbols and footprints for popular, cheap and easy-to-use electronic modules.&lt;br&gt;
+The modules are intend to work with microprocessor-based platforms such as &lt;a href="http://arduino.cc"&gt;Arduino&lt;/a&gt;, &lt;a href="http://raspberrypi.org/"&gt;Raspberry Pi&lt;/a&gt;, &lt;a href="http://cubieboard.org/"&gt;CubieBoard&lt;/a&gt;, &lt;a href="http://beagleboard.org/"&gt;BeagleBone&lt;/a&gt; and many others. There are many manufacturers of the modules in the world. Almost all of them can be bought on &lt;a href="ebay.com"&gt;ebay.com&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+By using this library, you can design a PCB for devices created with usage of modules. Even if you do not need to create PCB design, you can also use the library to quickly document your work by drawing schematics of devices built by you.&lt;br&gt;
+&lt;br&gt;
+The latest version, examples, photos and much more can be found at: &lt;b&gt;&lt;a href="http://diymodules.org/eagle"&gt;diymodules.org/eagle&lt;/a&gt;&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+Comments, suggestions and bug reports please send to: &lt;b&gt;&lt;a href="mailto:eagle@diymodules.org"&gt;eagle@diymodules.org&lt;/b&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;i&gt;Version: 1.8.0 (2017-Jul-02)&lt;/i&gt;&lt;br&gt;
+&lt;i&gt;Created by: Miroslaw Brudnowski&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+&lt;i&gt;Released under the Creative Commons Attribution 4.0 International License: &lt;a href="http://creativecommons.org/licenses/by/4.0"&gt;http://creativecommons.org/licenses/by/4.0&lt;/a&gt;&lt;/i&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;center&gt;
+&lt;a href="http://diymodules.org/eagle"&gt;&lt;img src="http://www.diymodules.org/img/diymodules-lbr-image.php?v=1.8.0" alt="DIYmodules.org"&gt;&lt;/a&gt;
+&lt;/center&gt;</description>
+<packages>
+<package name="DC-DC-STEP-DOWN-LM2596">
+<description>&lt;b&gt;DC/DC Step-Down Regulator&lt;/b&gt; based on &lt;b&gt;LM2596-ADJ&lt;/b&gt; chip</description>
+<wire x1="-21.59" y1="10.414" x2="21.59" y2="10.414" width="0.127" layer="21"/>
+<wire x1="21.59" y1="10.414" x2="21.59" y2="-10.414" width="0.127" layer="21"/>
+<wire x1="21.59" y1="-10.414" x2="-21.59" y2="-10.414" width="0.127" layer="21"/>
+<wire x1="-21.59" y1="-10.414" x2="-21.59" y2="10.414" width="0.127" layer="21"/>
+<pad name="IN+" x="-19.812" y="8.636" drill="1.5" diameter="2.5" shape="square"/>
+<pad name="IN-" x="-19.812" y="-8.636" drill="1.5" diameter="2.5" shape="square"/>
+<pad name="OUT-" x="19.812" y="-8.636" drill="1.5" diameter="2.5" shape="square"/>
+<pad name="OUT+" x="19.812" y="8.636" drill="1.5" diameter="2.5" shape="square"/>
+<hole x="-14.478" y="7.62" drill="3"/>
+<hole x="15.24" y="-7.62" drill="3"/>
+<text x="0" y="11.43" size="1.27" layer="25" align="bottom-center">&gt;NAME</text>
+<text x="0" y="-11.43" size="1.27" layer="27" align="top-center">&gt;VALUE</text>
+<text x="-19.685" y="0" size="1.778" layer="21" rot="R90" align="center">IN</text>
+<text x="19.685" y="0" size="1.778" layer="21" rot="R90" align="center">OUT</text>
+<wire x1="19.685" y1="6.985" x2="19.685" y2="5.715" width="0.254" layer="21"/>
+<wire x1="19.05" y1="6.35" x2="20.32" y2="6.35" width="0.254" layer="21"/>
+<wire x1="-19.685" y1="-6.985" x2="-19.685" y2="-5.715" width="0.254" layer="21"/>
+<wire x1="19.685" y1="-6.985" x2="19.685" y2="-5.715" width="0.254" layer="21"/>
+<wire x1="-19.685" y1="6.985" x2="-19.685" y2="5.715" width="0.254" layer="21"/>
+<wire x1="-20.32" y1="6.35" x2="-19.05" y2="6.35" width="0.254" layer="21"/>
+</package>
+</packages>
+<symbols>
+<symbol name="DC-DC-STEP-DOWN-LM2596">
+<description>&lt;b&gt;DC/DC Step-Down Regulator&lt;/b&gt; based on &lt;b&gt;LM2596-ADJ&lt;/b&gt; chip</description>
+<pin name="IN+" x="-17.78" y="5.08" visible="pin" length="middle"/>
+<pin name="IN-" x="-17.78" y="-5.08" visible="pin" length="middle"/>
+<pin name="OUT+" x="17.78" y="5.08" visible="pin" length="middle" rot="R180"/>
+<pin name="OUT-" x="17.78" y="-5.08" visible="pin" length="middle" rot="R180"/>
+<wire x1="-12.7" y1="10.16" x2="12.7" y2="10.16" width="0.254" layer="94"/>
+<wire x1="12.7" y1="10.16" x2="12.7" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-10.16" x2="-12.7" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-10.16" x2="-12.7" y2="10.16" width="0.254" layer="94"/>
+<text x="-12.7" y="15.24" size="1.778" layer="95">&gt;NAME</text>
+<text x="-12.7" y="12.7" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="DC-DC-STEP-DOWN-LM2596">
+<description>&lt;b&gt;DC/DC Step-Down Regulator&lt;/b&gt; based on &lt;b&gt;LM2596-ADJ&lt;/b&gt; chip
+&lt;p&gt;&lt;b&gt;LM2596&lt;/b&gt; datasheet available here:&lt;br /&gt;&lt;a href="http://www.ti.com/lit/ds/symlink/lm2596.pdf"&gt;http://www.ti.com/lit/ds/symlink/lm2596.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;&lt;a href="http://www.ebay.com/sch/lm2596+power+regulator"&gt;Click here to find device on ebay.com&lt;/a&gt;&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="photo" src="http://www.diymodules.org/img/device-photo.php?name=DC-DC-STEP-DOWN-LM2596"&gt;&lt;/p&gt;</description>
+<gates>
+<gate name="G$1" symbol="DC-DC-STEP-DOWN-LM2596" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="DC-DC-STEP-DOWN-LM2596">
+<connects>
+<connect gate="G$1" pin="IN+" pad="IN+"/>
+<connect gate="G$1" pin="IN-" pad="IN-"/>
+<connect gate="G$1" pin="OUT+" pad="OUT+"/>
+<connect gate="G$1" pin="OUT-" pad="OUT-"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+<library name="diode" urn="urn:adsk.eagle:library:210">
+<description>&lt;b&gt;Diodes&lt;/b&gt;&lt;p&gt;
+Based on the following sources:
+&lt;ul&gt;
+&lt;li&gt;Motorola : www.onsemi.com
+&lt;li&gt;Fairchild : www.fairchildsemi.com
+&lt;li&gt;Philips : www.semiconductors.com
+&lt;li&gt;Vishay : www.vishay.de
+&lt;/ul&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="DO41-10" urn="urn:adsk.eagle:footprint:43094/1" library_version="8">
+<description>&lt;B&gt;DIODE&lt;/B&gt;&lt;p&gt;
+diameter 2.54 mm, horizontal, grid 10.16 mm</description>
+<wire x1="2.032" y1="-1.27" x2="-2.032" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="2.032" y1="-1.27" x2="2.032" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-2.032" y1="1.27" x2="2.032" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-2.032" y1="1.27" x2="-2.032" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="5.08" y1="0" x2="4.064" y2="0" width="0.762" layer="51"/>
+<wire x1="-5.08" y1="0" x2="-4.064" y2="0" width="0.762" layer="51"/>
+<wire x1="-0.635" y1="0" x2="0" y2="0" width="0.1524" layer="21"/>
+<wire x1="1.016" y1="0.635" x2="1.016" y2="-0.635" width="0.1524" layer="21"/>
+<wire x1="1.016" y1="-0.635" x2="0" y2="0" width="0.1524" layer="21"/>
+<wire x1="0" y1="0" x2="1.524" y2="0" width="0.1524" layer="21"/>
+<wire x1="0" y1="0" x2="1.016" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="0" y1="0.635" x2="0" y2="0" width="0.1524" layer="21"/>
+<wire x1="0" y1="0" x2="0" y2="-0.635" width="0.1524" layer="21"/>
+<pad name="A" x="5.08" y="0" drill="1.1176"/>
+<pad name="C" x="-5.08" y="0" drill="1.1176"/>
+<text x="-2.032" y="1.651" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2.032" y="-2.794" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<rectangle x1="-1.651" y1="-1.27" x2="-1.143" y2="1.27" layer="21"/>
+<rectangle x1="2.032" y1="-0.381" x2="3.937" y2="0.381" layer="21"/>
+<rectangle x1="-3.937" y1="-0.381" x2="-2.032" y2="0.381" layer="21"/>
+</package>
+</packages>
+<packages3d>
+<package3d name="DO41-10" urn="urn:adsk.eagle:package:43336/1" type="box" library_version="8">
+<description>DIODE
+diameter 2.54 mm, horizontal, grid 10.16 mm</description>
+<packageinstances>
+<packageinstance name="DO41-10"/>
+</packageinstances>
+</package3d>
+</packages3d>
+<symbols>
+<symbol name="D" urn="urn:adsk.eagle:symbol:43091/2" library_version="8">
+<wire x1="-1.27" y1="-1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="-1.27" y2="1.27" width="0.254" layer="94"/>
+<wire x1="1.27" y1="1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="-1.27" y1="1.27" x2="-1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="-1.27" y1="0" x2="-1.27" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="1.27" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="-1.27" y1="0" x2="-2.54" y2="0" width="0.254" layer="94"/>
+<wire x1="2.54" y1="0" x2="1.27" y2="0" width="0.254" layer="94"/>
+<text x="2.54" y="0.4826" size="1.778" layer="95">&gt;NAME</text>
+<text x="2.54" y="-2.3114" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-2.54" y="0" size="0.4064" layer="99" align="center">SpiceOrder 1</text>
+<text x="2.54" y="0" size="0.4064" layer="99" align="center">SpiceOrder 2</text>
+<pin name="A" x="-2.54" y="0" visible="off" length="point" direction="pas"/>
+<pin name="C" x="2.54" y="0" visible="off" length="point" direction="pas" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="1N4004" urn="urn:adsk.eagle:component:43462/3" prefix="D" library_version="8">
+<description>&lt;B&gt;DIODE&lt;/B&gt;&lt;p&gt;
+general purpose rectifier, 1 A</description>
+<gates>
+<gate name="1" symbol="D" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="DO41-10">
+<connects>
+<connect gate="1" pin="A" pad="A"/>
+<connect gate="1" pin="C" pad="C"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:43336/1"/>
+</package3dinstances>
+<technologies>
+<technology name="">
+<attribute name="POPULARITY" value="82" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -12976,26 +13115,21 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 </classes>
 <parts>
 <part name="IC2" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device="" package3d_urn="urn:adsk.eagle:package:30237/1" value="ULN2803"/>
-<part name="IC3" library="td62083-dil" deviceset="TD62083" device="A" package3d_urn="urn:adsk.eagle:package:16424/2" technology="1"/>
 <part name="C2" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="CPOL-EU" device="E5-10.5" package3d_urn="urn:adsk.eagle:package:25854/1" value="1000uF"/>
-<part name="5V" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device="" value="5V"/>
 <part name="GND3" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
 <part name="5V1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device="" value="5V"/>
 <part name="GND4" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
 <part name="C3" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="C-EU" device="025-025X050" package3d_urn="urn:adsk.eagle:package:26151/1" value="10nF"/>
 <part name="GND10" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
-<part name="18V" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="VCC" device="" value="18V"/>
 <part name="5V2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device="" value="5V"/>
 <part name="GND5" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
 <part name="U1" library="SparkFun-IC-Logic" library_urn="urn:adsk.eagle:library:523" deviceset="74*595" device="N" package3d_urn="urn:adsk.eagle:package:38809/1" technology="HC" value="SN74HC595N "/>
 <part name="U2" library="SparkFun-IC-Logic" library_urn="urn:adsk.eagle:library:523" deviceset="74*595" device="N" package3d_urn="urn:adsk.eagle:package:38809/1" technology="HC" value="SN74HC595N "/>
 <part name="GND1" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
 <part name="IC1" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device="" package3d_urn="urn:adsk.eagle:package:30237/1" value="ULN2803"/>
-<part name="IC4" library="td62083-dil" deviceset="TD62083" device="A" package3d_urn="urn:adsk.eagle:package:16424/2" technology="1"/>
 <part name="GND6" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
 <part name="5V3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device="" value="5V"/>
 <part name="GND7" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
-<part name="18V1" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="VCC" device="" value="18V"/>
 <part name="5V4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device="" value="5V"/>
 <part name="GND8" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
 <part name="U3" library="SparkFun-IC-Logic" library_urn="urn:adsk.eagle:library:523" deviceset="74*595" device="N" package3d_urn="urn:adsk.eagle:package:38809/1" technology="HC" value="SN74HC595N "/>
@@ -13012,6 +13146,13 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <part name="C6" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="C-EU" device="025-025X050" package3d_urn="urn:adsk.eagle:package:26151/1" value="10nF"/>
 <part name="L" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="C-GRID-16" device="-70543" package3d_urn="urn:adsk.eagle:package:8078750/1"/>
 <part name="R" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="C-GRID-16" device="-70543" package3d_urn="urn:adsk.eagle:package:8078750/1"/>
+<part name="IC3" library="td62083-dil" deviceset="TD62083" device="A" package3d_urn="urn:adsk.eagle:package:16424/2" technology="1"/>
+<part name="IC4" library="td62083-dil" deviceset="TD62083" device="A" package3d_urn="urn:adsk.eagle:package:16424/2" technology="1"/>
+<part name="U$2" library="diy-modules_lm2596" deviceset="DC-DC-STEP-DOWN-LM2596" device=""/>
+<part name="GND14" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
+<part name="GND15" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND2" device=""/>
+<part name="D1" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4004" device="" package3d_urn="urn:adsk.eagle:package:43336/1"/>
+<part name="5V5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device="" value="5V"/>
 </parts>
 <sheets>
 <sheet>
@@ -13022,16 +13163,9 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <attribute name="NAME" x="-43.18" y="31.242" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-43.18" y="2.54" size="1.778" layer="96"/>
 </instance>
-<instance part="IC3" gate="1" x="-33.02" y="121.92" smashed="yes">
-<attribute name="NAME" x="-40.64" y="135.382" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-40.64" y="106.68" size="1.778" layer="96"/>
-</instance>
-<instance part="C2" gate="G$1" x="-220.98" y="-10.16" smashed="yes">
-<attribute name="NAME" x="-224.917" y="-9.6774" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-227.457" y="-14.7574" size="1.778" layer="96"/>
-</instance>
-<instance part="5V" gate="VCC" x="-228.6" y="-2.54" smashed="yes" rot="R90">
-<attribute name="VALUE" x="-226.06" y="-5.08" size="1.778" layer="96" rot="R180"/>
+<instance part="C2" gate="G$1" x="-220.98" y="-17.78" smashed="yes">
+<attribute name="NAME" x="-227.457" y="-19.8374" size="1.778" layer="95"/>
+<attribute name="VALUE" x="-227.457" y="-22.3774" size="1.778" layer="96"/>
 </instance>
 <instance part="GND3" gate="G$1" x="-20.32" y="106.68" smashed="yes">
 <attribute name="VALUE" x="-20.32" y="104.902" size="1.778" layer="96" align="top-center"/>
@@ -13046,11 +13180,8 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <attribute name="NAME" x="-84.201" y="37.084" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="-79.121" y="37.084" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND10" gate="G$1" x="-220.98" y="-22.86" smashed="yes">
-<attribute name="VALUE" x="-220.98" y="-24.638" size="1.778" layer="96" align="top-center"/>
-</instance>
-<instance part="18V" gate="G$1" x="-35.56" y="104.14" smashed="yes" rot="R270">
-<attribute name="VALUE" x="-32.385" y="106.045" size="1.778" layer="96" rot="R270"/>
+<instance part="GND10" gate="G$1" x="-220.98" y="-30.48" smashed="yes">
+<attribute name="VALUE" x="-220.98" y="-32.258" size="1.778" layer="96" align="top-center"/>
 </instance>
 <instance part="5V2" gate="VCC" x="-88.9" y="157.48" smashed="yes">
 <attribute name="VALUE" x="-91.44" y="154.94" size="1.778" layer="96" rot="R90"/>
@@ -13073,10 +13204,6 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <attribute name="NAME" x="-38.1" y="-174.498" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-38.1" y="-203.2" size="1.778" layer="96"/>
 </instance>
-<instance part="IC4" gate="1" x="-27.94" y="-83.82" smashed="yes">
-<attribute name="NAME" x="-35.56" y="-70.358" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-35.56" y="-99.06" size="1.778" layer="96"/>
-</instance>
 <instance part="GND6" gate="G$1" x="-15.24" y="-99.06" smashed="yes">
 <attribute name="VALUE" x="-15.24" y="-100.838" size="1.778" layer="96" align="top-center"/>
 </instance>
@@ -13085,9 +13212,6 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 </instance>
 <instance part="GND7" gate="G$1" x="-43.18" y="-203.2" smashed="yes">
 <attribute name="VALUE" x="-43.18" y="-204.978" size="1.778" layer="96" align="top-center"/>
-</instance>
-<instance part="18V1" gate="G$1" x="-40.64" y="-101.6" smashed="yes" rot="R180">
-<attribute name="VALUE" x="-38.735" y="-104.775" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="5V4" gate="VCC" x="-73.66" y="-55.88" smashed="yes">
 <attribute name="VALUE" x="-76.2" y="-58.42" size="1.778" layer="96" rot="R90"/>
@@ -13133,9 +13257,9 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <instance part="GND13" gate="G$1" x="-88.9" y="-165.1" smashed="yes" rot="R270">
 <attribute name="VALUE" x="-90.678" y="-165.1" size="1.778" layer="96" rot="R270" align="top-center"/>
 </instance>
-<instance part="C6" gate="G$1" x="-215.9" y="-10.16" smashed="yes">
-<attribute name="NAME" x="-214.376" y="-9.779" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-216.916" y="-14.859" size="1.778" layer="96"/>
+<instance part="C6" gate="G$1" x="-215.9" y="-17.78" smashed="yes">
+<attribute name="NAME" x="-214.376" y="-17.399" size="1.778" layer="95"/>
+<attribute name="VALUE" x="-216.916" y="-22.479" size="1.778" layer="96"/>
 </instance>
 <instance part="L" gate="-1" x="27.94" y="81.28" smashed="yes">
 <attribute name="NAME" x="30.48" y="80.518" size="1.524" layer="95"/>
@@ -13235,11 +13359,35 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <instance part="R" gate="-16" x="30.48" y="-162.56" smashed="yes">
 <attribute name="NAME" x="33.02" y="-163.322" size="1.524" layer="95"/>
 </instance>
+<instance part="IC3" gate="1" x="-27.94" y="-83.82" smashed="yes">
+<attribute name="NAME" x="-35.56" y="-70.358" size="1.778" layer="95"/>
+<attribute name="VALUE" x="-35.56" y="-99.06" size="1.778" layer="96"/>
+</instance>
+<instance part="IC4" gate="1" x="-33.02" y="121.92" smashed="yes">
+<attribute name="NAME" x="-40.64" y="135.382" size="1.778" layer="95"/>
+<attribute name="VALUE" x="-40.64" y="106.68" size="1.778" layer="96"/>
+</instance>
+<instance part="U$2" gate="G$1" x="-213.36" y="66.04" smashed="yes" rot="R180">
+<attribute name="VALUE" x="-200.66" y="53.34" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="GND14" gate="G$1" x="-238.76" y="71.12" smashed="yes" rot="R270">
+<attribute name="VALUE" x="-240.538" y="71.12" size="1.778" layer="96" rot="R270" align="top-center"/>
+</instance>
+<instance part="GND15" gate="G$1" x="-187.96" y="71.12" smashed="yes" rot="R90">
+<attribute name="VALUE" x="-186.182" y="71.12" size="1.778" layer="96" rot="R90" align="top-center"/>
+</instance>
+<instance part="D1" gate="1" x="-238.76" y="-2.54" smashed="yes" rot="MR180">
+<attribute name="NAME" x="-236.22" y="-3.0226" size="1.778" layer="95" rot="MR180"/>
+<attribute name="VALUE" x="-236.22" y="-0.2286" size="1.778" layer="96" rot="MR180"/>
+</instance>
+<instance part="5V5" gate="VCC" x="-226.06" y="-10.16" smashed="yes" rot="R90">
+<attribute name="VALUE" x="-223.52" y="-12.7" size="1.778" layer="96" rot="R180"/>
+</instance>
 </instances>
 <busses>
 </busses>
 <nets>
-<net name="3.3V" class="0">
+<net name="GND" class="0">
 <segment>
 <pinref part="IC2" gate="G$1" pin="GND"/>
 <pinref part="GND4" gate="G$1" pin="3.3V"/>
@@ -13247,21 +13395,16 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <junction x="-48.26" y="5.08"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="1" pin="GND"/>
-<pinref part="GND3" gate="G$1" pin="3.3V"/>
-<wire x1="-20.32" y1="111.76" x2="-20.32" y2="109.22" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="C2" gate="G$1" pin="-"/>
 <pinref part="GND10" gate="G$1" pin="3.3V"/>
-<wire x1="-220.98" y1="-20.32" x2="-220.98" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-220.98" y1="-27.94" x2="-220.98" y2="-22.86" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="GND"/>
-<wire x1="-210.82" y1="-15.24" x2="-210.82" y2="-5.08" width="0.1524" layer="91"/>
-<wire x1="-220.98" y1="-15.24" x2="-215.9" y2="-15.24" width="0.1524" layer="91"/>
-<junction x="-220.98" y="-15.24"/>
+<wire x1="-210.82" y1="-22.86" x2="-210.82" y2="-5.08" width="0.1524" layer="91"/>
+<wire x1="-220.98" y1="-22.86" x2="-215.9" y2="-22.86" width="0.1524" layer="91"/>
+<junction x="-220.98" y="-22.86"/>
 <pinref part="C6" gate="G$1" pin="2"/>
-<wire x1="-215.9" y1="-15.24" x2="-210.82" y2="-15.24" width="0.1524" layer="91"/>
-<junction x="-215.9" y="-15.24"/>
+<wire x1="-215.9" y1="-22.86" x2="-210.82" y2="-22.86" width="0.1524" layer="91"/>
+<junction x="-215.9" y="-22.86"/>
 </segment>
 <segment>
 <pinref part="GND5" gate="G$1" pin="3.3V"/>
@@ -13280,11 +13423,7 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="GND7" gate="G$1" pin="3.3V"/>
 <wire x1="-43.18" y1="-198.12" x2="-43.18" y2="-200.66" width="0.1524" layer="91"/>
 <junction x="-43.18" y="-200.66"/>
-</segment>
-<segment>
-<pinref part="IC4" gate="1" pin="GND"/>
-<pinref part="GND6" gate="G$1" pin="3.3V"/>
-<wire x1="-15.24" y1="-93.98" x2="-15.24" y2="-96.52" width="0.1524" layer="91"/>
+<junction x="-43.18" y="-198.12"/>
 </segment>
 <segment>
 <pinref part="GND8" gate="G$1" pin="3.3V"/>
@@ -13318,27 +13457,20 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="C5" gate="G$1" pin="1"/>
 <wire x1="-86.36" y1="-165.1" x2="-83.82" y2="-165.1" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="IC3" gate="1" pin="GND"/>
+<pinref part="GND6" gate="G$1" pin="3.3V"/>
+<wire x1="-15.24" y1="-93.98" x2="-15.24" y2="-96.52" width="0.1524" layer="91"/>
+<junction x="-15.24" y="-93.98"/>
+<junction x="-15.24" y="-96.52"/>
+</segment>
+<segment>
+<pinref part="IC4" gate="1" pin="GND"/>
+<pinref part="GND3" gate="G$1" pin="3.3V"/>
+<wire x1="-20.32" y1="111.76" x2="-20.32" y2="109.22" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="VCC" class="0">
-<segment>
-<pinref part="5V" gate="VCC" pin="VCC"/>
-<wire x1="-226.06" y1="-2.54" x2="-220.98" y2="-2.54" width="0.1524" layer="91"/>
-<pinref part="C2" gate="G$1" pin="+"/>
-<wire x1="-220.98" y1="-7.62" x2="-220.98" y2="-2.54" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="5V"/>
-<wire x1="-220.98" y1="-7.62" x2="-215.9" y2="-7.62" width="0.1524" layer="91"/>
-<wire x1="-215.9" y1="-7.62" x2="-213.36" y2="-7.62" width="0.1524" layer="91"/>
-<wire x1="-213.36" y1="-7.62" x2="-213.36" y2="-5.08" width="0.1524" layer="91"/>
-<junction x="-220.98" y="-7.62"/>
-<pinref part="C6" gate="G$1" pin="1"/>
-<junction x="-215.9" y="-7.62"/>
-</segment>
-<segment>
-<pinref part="IC3" gate="1" pin="VS"/>
-<wire x1="-45.72" y1="111.76" x2="-45.72" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="-45.72" y1="104.14" x2="-38.1" y2="104.14" width="0.1524" layer="91"/>
-<pinref part="18V" gate="G$1" pin="VCC"/>
-</segment>
 <segment>
 <pinref part="U1" gate="U1" pin="VCC"/>
 <wire x1="-88.9" y1="134.62" x2="-91.44" y2="134.62" width="0.1524" layer="91"/>
@@ -13380,58 +13512,21 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <junction x="-71.12" y="-165.1"/>
 </segment>
 <segment>
-<pinref part="IC4" gate="1" pin="VS"/>
-<pinref part="18V1" gate="G$1" pin="VCC"/>
-<wire x1="-40.64" y1="-93.98" x2="-40.64" y2="-99.06" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$41" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I1"/>
-<wire x1="-91.44" y1="132.08" x2="-45.72" y2="132.08" width="0.1524" layer="91"/>
-<pinref part="U1" gate="U1" pin="QA"/>
-</segment>
-</net>
-<net name="N$42" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I2"/>
-<wire x1="-45.72" y1="129.54" x2="-91.44" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="U1" gate="U1" pin="QB"/>
-</segment>
-</net>
-<net name="N$43" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I3"/>
-<pinref part="U1" gate="U1" pin="QC"/>
-<wire x1="-45.72" y1="127" x2="-91.44" y2="127" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$44" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I4"/>
-<pinref part="U1" gate="U1" pin="QD"/>
-<wire x1="-45.72" y1="124.46" x2="-91.44" y2="124.46" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$45" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I5"/>
-<pinref part="U1" gate="U1" pin="QE"/>
-<wire x1="-45.72" y1="121.92" x2="-91.44" y2="121.92" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$47" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I7"/>
-<pinref part="U1" gate="U1" pin="QG"/>
-<wire x1="-45.72" y1="116.84" x2="-91.44" y2="116.84" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$48" class="0">
-<segment>
-<pinref part="U1" gate="U1" pin="QF"/>
-<wire x1="-45.72" y1="119.38" x2="-91.44" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="1" pin="I6"/>
+<pinref part="C2" gate="G$1" pin="+"/>
+<wire x1="-220.98" y1="-15.24" x2="-220.98" y2="-10.16" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="5V"/>
+<wire x1="-220.98" y1="-10.16" x2="-220.98" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="-220.98" y1="-15.24" x2="-215.9" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-215.9" y1="-15.24" x2="-213.36" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-213.36" y1="-15.24" x2="-213.36" y2="-5.08" width="0.1524" layer="91"/>
+<junction x="-220.98" y="-15.24"/>
+<pinref part="C6" gate="G$1" pin="1"/>
+<junction x="-215.9" y="-15.24"/>
+<pinref part="D1" gate="1" pin="C"/>
+<wire x1="-236.22" y1="-2.54" x2="-220.98" y2="-2.54" width="0.1524" layer="91"/>
+<pinref part="5V5" gate="VCC" pin="VCC"/>
+<wire x1="-223.52" y1="-10.16" x2="-220.98" y2="-10.16" width="0.1524" layer="91"/>
+<junction x="-220.98" y="-10.16"/>
 </segment>
 </net>
 <net name="N$36" class="0">
@@ -13472,62 +13567,6 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <junction x="-205.74" y="30.48"/>
 </segment>
 </net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I1"/>
-<pinref part="U2" gate="U1" pin="QA"/>
-<wire x1="-48.26" y1="27.94" x2="-78.74" y2="27.94" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="U2" gate="U1" pin="QB"/>
-<pinref part="IC2" gate="G$1" pin="I2"/>
-<wire x1="-78.74" y1="25.4" x2="-48.26" y2="25.4" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I3"/>
-<pinref part="U2" gate="U1" pin="QC"/>
-<wire x1="-48.26" y1="22.86" x2="-78.74" y2="22.86" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I4"/>
-<pinref part="U2" gate="U1" pin="QD"/>
-<wire x1="-48.26" y1="20.32" x2="-78.74" y2="20.32" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$5" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I5"/>
-<pinref part="U2" gate="U1" pin="QE"/>
-<wire x1="-48.26" y1="17.78" x2="-78.74" y2="17.78" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$6" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I6"/>
-<pinref part="U2" gate="U1" pin="QF"/>
-<wire x1="-48.26" y1="15.24" x2="-78.74" y2="15.24" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$7" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I7"/>
-<pinref part="U2" gate="U1" pin="QG"/>
-<wire x1="-48.26" y1="12.7" x2="-78.74" y2="12.7" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="I8"/>
-<pinref part="U2" gate="U1" pin="QH"/>
-<wire x1="-48.26" y1="10.16" x2="-78.74" y2="10.16" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$37" class="0">
 <segment>
 <pinref part="U2" gate="U1" pin="SER"/>
@@ -13549,109 +13588,48 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 </net>
 <net name="N$57" class="0">
 <segment>
-<pinref part="IC4" gate="1" pin="O1"/>
 <pinref part="R" gate="-1" pin="S"/>
 <junction x="27.94" y="-124.46"/>
 <wire x1="27.94" y1="-73.66" x2="27.94" y2="-124.46" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="O1"/>
 <wire x1="-15.24" y1="-73.66" x2="27.94" y2="-73.66" width="0.1524" layer="91"/>
+<junction x="-15.24" y="-73.66"/>
 </segment>
 </net>
 <net name="N$59" class="0">
 <segment>
-<pinref part="IC4" gate="1" pin="O3"/>
 <wire x1="22.86" y1="-78.74" x2="22.86" y2="-129.54" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="-129.54" x2="27.94" y2="-129.54" width="0.1524" layer="91"/>
 <pinref part="R" gate="-3" pin="S"/>
 <junction x="27.94" y="-129.54"/>
 <junction x="22.86" y="-129.54"/>
+<pinref part="IC3" gate="1" pin="O3"/>
 <wire x1="-15.24" y1="-78.74" x2="22.86" y2="-78.74" width="0.1524" layer="91"/>
+<junction x="-15.24" y="-78.74"/>
 </segment>
 </net>
 <net name="N$61" class="0">
 <segment>
-<pinref part="IC4" gate="1" pin="O5"/>
 <wire x1="17.78" y1="-83.82" x2="17.78" y2="-134.62" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="-134.62" x2="27.94" y2="-134.62" width="0.1524" layer="91"/>
 <pinref part="R" gate="-5" pin="S"/>
 <junction x="27.94" y="-134.62"/>
 <junction x="17.78" y="-134.62"/>
+<pinref part="IC3" gate="1" pin="O5"/>
 <wire x1="-15.24" y1="-83.82" x2="17.78" y2="-83.82" width="0.1524" layer="91"/>
+<junction x="-15.24" y="-83.82"/>
 </segment>
 </net>
 <net name="N$63" class="0">
 <segment>
-<pinref part="IC4" gate="1" pin="O7"/>
 <wire x1="12.7" y1="-88.9" x2="12.7" y2="-139.7" width="0.1524" layer="91"/>
 <wire x1="12.7" y1="-139.7" x2="27.94" y2="-139.7" width="0.1524" layer="91"/>
 <pinref part="R" gate="-7" pin="S"/>
 <junction x="27.94" y="-139.7"/>
 <junction x="12.7" y="-139.7"/>
+<pinref part="IC3" gate="1" pin="O7"/>
 <wire x1="-15.24" y1="-88.9" x2="12.7" y2="-88.9" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$78" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I7"/>
-<wire x1="-40.64" y1="-88.9" x2="-43.18" y2="-88.9" width="0.1524" layer="91"/>
-<pinref part="U3" gate="U1" pin="QG"/>
-<wire x1="-43.18" y1="-88.9" x2="-45.72" y2="-88.9" width="0.1524" layer="91"/>
-<wire x1="-45.72" y1="-88.9" x2="-76.2" y2="-88.9" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$83" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I1"/>
-<pinref part="U4" gate="U1" pin="QA"/>
-<wire x1="-43.18" y1="-177.8" x2="-73.66" y2="-177.8" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$84" class="0">
-<segment>
-<pinref part="U4" gate="U1" pin="QB"/>
-<pinref part="IC1" gate="G$1" pin="I2"/>
-<wire x1="-73.66" y1="-180.34" x2="-43.18" y2="-180.34" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$85" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I3"/>
-<pinref part="U4" gate="U1" pin="QC"/>
-<wire x1="-43.18" y1="-182.88" x2="-73.66" y2="-182.88" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$86" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I4"/>
-<pinref part="U4" gate="U1" pin="QD"/>
-<wire x1="-43.18" y1="-185.42" x2="-73.66" y2="-185.42" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$87" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I5"/>
-<pinref part="U4" gate="U1" pin="QE"/>
-<wire x1="-43.18" y1="-187.96" x2="-73.66" y2="-187.96" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$88" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I6"/>
-<pinref part="U4" gate="U1" pin="QF"/>
-<wire x1="-43.18" y1="-190.5" x2="-73.66" y2="-190.5" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$89" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I7"/>
-<pinref part="U4" gate="U1" pin="QG"/>
-<wire x1="-43.18" y1="-193.04" x2="-73.66" y2="-193.04" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$90" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="I8"/>
-<pinref part="U4" gate="U1" pin="QH"/>
-<wire x1="-43.18" y1="-195.58" x2="-73.66" y2="-195.58" width="0.1524" layer="91"/>
+<junction x="-15.24" y="-88.9"/>
 </segment>
 </net>
 <net name="N$92" class="0">
@@ -13670,66 +13648,14 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <junction x="-91.44" y="111.76"/>
 </segment>
 </net>
-<net name="N$31" class="0">
-<segment>
-<pinref part="IC3" gate="1" pin="I8"/>
-<pinref part="U1" gate="U1" pin="QH"/>
-<wire x1="-45.72" y1="114.3" x2="-91.44" y2="114.3" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$35" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I8"/>
-<wire x1="-48.26" y1="-91.44" x2="-43.18" y2="-91.44" width="0.1524" layer="91"/>
-<pinref part="U3" gate="U1" pin="QH"/>
-<wire x1="-43.18" y1="-91.44" x2="-40.64" y2="-91.44" width="0.1524" layer="91"/>
-<wire x1="-48.26" y1="-91.44" x2="-76.2" y2="-91.44" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$46" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I6"/>
-<wire x1="-40.64" y1="-86.36" x2="-43.18" y2="-86.36" width="0.1524" layer="91"/>
-<pinref part="U3" gate="U1" pin="QF"/>
-<wire x1="-40.64" y1="-86.36" x2="-76.2" y2="-86.36" width="0.1524" layer="91"/>
-<junction x="-40.64" y="-86.36"/>
-</segment>
-</net>
 <net name="N$72" class="0">
 <segment>
-<pinref part="IC4" gate="1" pin="I1"/>
-<wire x1="-43.18" y1="-73.66" x2="-40.64" y2="-73.66" width="0.1524" layer="91"/>
-<pinref part="U3" gate="U1" pin="QA"/>
-<wire x1="-76.2" y1="-73.66" x2="-40.64" y2="-73.66" width="0.1524" layer="91"/>
+<pinref part="U3" gate="U1" pin="QH"/>
+<wire x1="-76.2" y1="-91.44" x2="-48.26" y2="-91.44" width="0.1524" layer="91"/>
+<wire x1="-48.26" y1="-91.44" x2="-48.26" y2="-73.66" width="0.1524" layer="91"/>
+<wire x1="-48.26" y1="-73.66" x2="-40.64" y2="-73.66" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I1"/>
 <junction x="-40.64" y="-73.66"/>
-</segment>
-</net>
-<net name="N$73" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I2"/>
-<pinref part="U3" gate="U1" pin="QB"/>
-<wire x1="-40.64" y1="-76.2" x2="-76.2" y2="-76.2" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$74" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I3"/>
-<pinref part="U3" gate="U1" pin="QC"/>
-<wire x1="-40.64" y1="-78.74" x2="-76.2" y2="-78.74" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$75" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I4"/>
-<pinref part="U3" gate="U1" pin="QD"/>
-<wire x1="-40.64" y1="-81.28" x2="-76.2" y2="-81.28" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$76" class="0">
-<segment>
-<pinref part="IC4" gate="1" pin="I5"/>
-<pinref part="U3" gate="U1" pin="QE"/>
-<wire x1="-40.64" y1="-83.82" x2="-76.2" y2="-83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$77" class="0">
@@ -13821,11 +13747,11 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 </net>
 <net name="N$9" class="0">
 <segment>
-<pinref part="IC3" gate="1" pin="O1"/>
-<wire x1="-20.32" y1="132.08" x2="25.4" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="L" gate="-1" pin="S"/>
+<wire x1="-20.32" y1="132.08" x2="25.4" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="25.4" y1="132.08" x2="25.4" y2="81.28" width="0.1524" layer="91"/>
 <junction x="25.4" y="81.28"/>
+<pinref part="IC4" gate="1" pin="O1"/>
 <junction x="-20.32" y="132.08"/>
 </segment>
 </net>
@@ -13833,21 +13759,21 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <segment>
 <pinref part="L" gate="-2" pin="S"/>
 <wire x1="25.4" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="1" pin="O2"/>
 <wire x1="22.86" y1="78.74" x2="22.86" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="129.54" x2="-20.32" y2="129.54" width="0.1524" layer="91"/>
 <junction x="25.4" y="78.74"/>
+<pinref part="IC4" gate="1" pin="O2"/>
 <junction x="-20.32" y="129.54"/>
 </segment>
 </net>
 <net name="N$11" class="0">
 <segment>
-<pinref part="IC3" gate="1" pin="O3"/>
 <wire x1="-20.32" y1="127" x2="20.32" y2="127" width="0.1524" layer="91"/>
 <wire x1="20.32" y1="127" x2="20.32" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="L" gate="-3" pin="S"/>
 <wire x1="20.32" y1="76.2" x2="25.4" y2="76.2" width="0.1524" layer="91"/>
 <junction x="25.4" y="76.2"/>
+<pinref part="IC4" gate="1" pin="O3"/>
 <junction x="-20.32" y="127"/>
 </segment>
 </net>
@@ -13856,20 +13782,20 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="L" gate="-4" pin="S"/>
 <wire x1="25.4" y1="73.66" x2="17.78" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="73.66" x2="17.78" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="1" pin="O4"/>
 <wire x1="17.78" y1="124.46" x2="-20.32" y2="124.46" width="0.1524" layer="91"/>
 <junction x="25.4" y="73.66"/>
+<pinref part="IC4" gate="1" pin="O4"/>
 <junction x="-20.32" y="124.46"/>
 </segment>
 </net>
 <net name="N$13" class="0">
 <segment>
-<pinref part="IC3" gate="1" pin="O5"/>
 <wire x1="-20.32" y1="121.92" x2="15.24" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="121.92" x2="15.24" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="L" gate="-5" pin="S"/>
 <wire x1="15.24" y1="71.12" x2="25.4" y2="71.12" width="0.1524" layer="91"/>
 <junction x="25.4" y="71.12"/>
+<pinref part="IC4" gate="1" pin="O5"/>
 <junction x="-20.32" y="121.92"/>
 </segment>
 </net>
@@ -13878,22 +13804,20 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="L" gate="-6" pin="S"/>
 <wire x1="25.4" y1="68.58" x2="12.7" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="12.7" y1="68.58" x2="12.7" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="1" pin="O6"/>
-<wire x1="12.7" y1="119.38" x2="-17.78" y2="119.38" width="0.1524" layer="91"/>
 <junction x="25.4" y="68.58"/>
-<junction x="-17.78" y="119.38"/>
-<wire x1="-17.78" y1="119.38" x2="-20.32" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="O6"/>
+<wire x1="12.7" y1="119.38" x2="-20.32" y2="119.38" width="0.1524" layer="91"/>
 <junction x="-20.32" y="119.38"/>
 </segment>
 </net>
 <net name="N$15" class="0">
 <segment>
-<pinref part="IC3" gate="1" pin="O7"/>
 <wire x1="-20.32" y1="116.84" x2="10.16" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="10.16" y1="116.84" x2="10.16" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="L" gate="-7" pin="S"/>
 <wire x1="10.16" y1="66.04" x2="25.4" y2="66.04" width="0.1524" layer="91"/>
 <junction x="25.4" y="66.04"/>
+<pinref part="IC4" gate="1" pin="O7"/>
 <junction x="-20.32" y="116.84"/>
 </segment>
 </net>
@@ -13901,10 +13825,10 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <segment>
 <pinref part="L" gate="-8" pin="S"/>
 <wire x1="25.4" y1="63.5" x2="7.62" y2="63.5" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="1" pin="O8"/>
 <wire x1="7.62" y1="63.5" x2="7.62" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="7.62" y1="114.3" x2="-20.32" y2="114.3" width="0.1524" layer="91"/>
 <junction x="25.4" y="63.5"/>
+<pinref part="IC4" gate="1" pin="O8"/>
 <junction x="-20.32" y="114.3"/>
 </segment>
 </net>
@@ -14002,8 +13926,9 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="R" gate="-2" pin="S"/>
 <junction x="27.94" y="-127"/>
 <junction x="25.4" y="-127"/>
-<pinref part="IC4" gate="1" pin="O2"/>
 <wire x1="25.4" y1="-76.2" x2="-15.24" y2="-76.2" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="O2"/>
+<junction x="-15.24" y="-76.2"/>
 </segment>
 </net>
 <net name="N$28" class="0">
@@ -14013,8 +13938,9 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="R" gate="-4" pin="S"/>
 <junction x="27.94" y="-132.08"/>
 <junction x="20.32" y="-132.08"/>
-<pinref part="IC4" gate="1" pin="O4"/>
 <wire x1="20.32" y1="-81.28" x2="-15.24" y2="-81.28" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="O4"/>
+<junction x="-15.24" y="-81.28"/>
 </segment>
 </net>
 <net name="N$30" class="0">
@@ -14024,8 +13950,9 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="R" gate="-6" pin="S"/>
 <junction x="27.94" y="-137.16"/>
 <junction x="15.24" y="-137.16"/>
-<pinref part="IC4" gate="1" pin="O6"/>
 <wire x1="15.24" y1="-86.36" x2="-15.24" y2="-86.36" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="O6"/>
+<junction x="-15.24" y="-86.36"/>
 </segment>
 </net>
 <net name="N$33" class="0">
@@ -14035,8 +13962,9 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <pinref part="R" gate="-8" pin="S"/>
 <junction x="27.94" y="-142.24"/>
 <junction x="10.16" y="-142.24"/>
-<pinref part="IC4" gate="1" pin="O8"/>
 <wire x1="10.16" y1="-91.44" x2="-15.24" y2="-91.44" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="O8"/>
+<junction x="-15.24" y="-91.44"/>
 </segment>
 </net>
 <net name="N$39" class="0">
@@ -14127,6 +14055,354 @@ Source: Allegro Microsystems Inc. / UDN2981-UDN2984.pdf</description>
 <junction x="10.16" y="-144.78"/>
 <pinref part="IC1" gate="G$1" pin="O1"/>
 <wire x1="10.16" y1="-177.8" x2="-17.78" y2="-177.8" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$25" class="0">
+<segment>
+<pinref part="U1" gate="U1" pin="QH"/>
+<wire x1="-91.44" y1="114.3" x2="-73.66" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="114.3" x2="-73.66" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="132.08" x2="-45.72" y2="132.08" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I1"/>
+</segment>
+</net>
+<net name="N$27" class="0">
+<segment>
+<wire x1="-45.72" y1="129.54" x2="-76.2" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="-76.2" y1="129.54" x2="-76.2" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="U1" gate="U1" pin="QG"/>
+<wire x1="-76.2" y1="116.84" x2="-91.44" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I2"/>
+</segment>
+</net>
+<net name="N$29" class="0">
+<segment>
+<pinref part="U1" gate="U1" pin="QF"/>
+<wire x1="-91.44" y1="119.38" x2="-78.74" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="-78.74" y1="119.38" x2="-78.74" y2="127" width="0.1524" layer="91"/>
+<wire x1="-78.74" y1="127" x2="-45.72" y2="127" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I3"/>
+</segment>
+</net>
+<net name="N$31" class="0">
+<segment>
+<wire x1="-45.72" y1="124.46" x2="-81.28" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="-81.28" y1="124.46" x2="-81.28" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="U1" gate="U1" pin="QE"/>
+<wire x1="-81.28" y1="121.92" x2="-91.44" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I4"/>
+</segment>
+</net>
+<net name="N$32" class="0">
+<segment>
+<pinref part="U1" gate="U1" pin="QD"/>
+<wire x1="-91.44" y1="124.46" x2="-84.328" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="-84.328" y1="124.46" x2="-84.328" y2="123.19" width="0.1524" layer="91"/>
+<wire x1="-84.328" y1="123.19" x2="-45.72" y2="123.19" width="0.1524" layer="91"/>
+<wire x1="-45.72" y1="123.19" x2="-45.72" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I5"/>
+</segment>
+</net>
+<net name="N$41" class="0">
+<segment>
+<pinref part="U1" gate="U1" pin="QC"/>
+<wire x1="-91.44" y1="127" x2="-91.44" y2="125.73" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="125.73" x2="-46.99" y2="125.73" width="0.1524" layer="91"/>
+<wire x1="-46.99" y1="125.73" x2="-46.99" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="-46.99" y1="119.38" x2="-45.72" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I6"/>
+</segment>
+</net>
+<net name="N$42" class="0">
+<segment>
+<pinref part="U1" gate="U1" pin="QB"/>
+<wire x1="-91.44" y1="129.54" x2="-91.44" y2="128.524" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="128.524" x2="-48.26" y2="128.524" width="0.1524" layer="91"/>
+<wire x1="-48.26" y1="128.524" x2="-48.26" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="-48.26" y1="116.84" x2="-45.72" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I7"/>
+</segment>
+</net>
+<net name="N$43" class="0">
+<segment>
+<pinref part="U1" gate="U1" pin="QA"/>
+<wire x1="-91.44" y1="132.08" x2="-91.44" y2="131.064" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="131.064" x2="-49.784" y2="131.064" width="0.1524" layer="91"/>
+<wire x1="-49.784" y1="131.064" x2="-49.784" y2="114.554" width="0.1524" layer="91"/>
+<wire x1="-49.784" y1="114.554" x2="-45.72" y2="114.554" width="0.1524" layer="91"/>
+<wire x1="-45.72" y1="114.554" x2="-45.72" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="1" pin="I8"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QH"/>
+<wire x1="-78.74" y1="10.16" x2="-55.88" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="-55.88" y1="10.16" x2="-55.88" y2="27.94" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I1"/>
+<wire x1="-55.88" y1="27.94" x2="-48.26" y2="27.94" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$2" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QG"/>
+<wire x1="-78.74" y1="12.7" x2="-58.42" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="-58.42" y1="12.7" x2="-58.42" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I2"/>
+<wire x1="-58.42" y1="25.4" x2="-48.26" y2="25.4" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="IC2" gate="G$1" pin="I3"/>
+<wire x1="-48.26" y1="22.86" x2="-60.96" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="-60.96" y1="22.86" x2="-60.96" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="U2" gate="U1" pin="QF"/>
+<wire x1="-60.96" y1="15.24" x2="-78.74" y2="15.24" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QE"/>
+<wire x1="-78.74" y1="17.78" x2="-63.5" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="-63.5" y1="17.78" x2="-63.5" y2="20.32" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I4"/>
+<wire x1="-63.5" y1="20.32" x2="-48.26" y2="20.32" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QD"/>
+<wire x1="-78.74" y1="20.32" x2="-69.088" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="-69.088" y1="20.32" x2="-69.088" y2="18.796" width="0.1524" layer="91"/>
+<wire x1="-69.088" y1="18.796" x2="-48.26" y2="18.796" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I5"/>
+<wire x1="-48.26" y1="18.796" x2="-48.26" y2="17.78" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QC"/>
+<wire x1="-78.74" y1="22.86" x2="-78.74" y2="21.59" width="0.1524" layer="91"/>
+<wire x1="-78.74" y1="21.59" x2="-49.784" y2="21.59" width="0.1524" layer="91"/>
+<wire x1="-49.784" y1="21.59" x2="-49.784" y2="14.986" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I6"/>
+<wire x1="-49.784" y1="14.986" x2="-48.26" y2="14.986" width="0.1524" layer="91"/>
+<wire x1="-48.26" y1="14.986" x2="-48.26" y2="15.24" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$7" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QB"/>
+<wire x1="-78.74" y1="25.4" x2="-78.74" y2="24.13" width="0.1524" layer="91"/>
+<wire x1="-78.74" y1="24.13" x2="-51.054" y2="24.13" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I7"/>
+<wire x1="-51.054" y1="24.13" x2="-51.054" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="-51.054" y1="12.7" x2="-48.26" y2="12.7" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$8" class="0">
+<segment>
+<pinref part="U2" gate="U1" pin="QA"/>
+<wire x1="-78.74" y1="27.94" x2="-78.74" y2="26.67" width="0.1524" layer="91"/>
+<wire x1="-78.74" y1="26.67" x2="-52.832" y2="26.67" width="0.1524" layer="91"/>
+<wire x1="-52.832" y1="26.67" x2="-52.832" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="I8"/>
+<wire x1="-52.832" y1="10.16" x2="-48.26" y2="10.16" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$44" class="0">
+<segment>
+<wire x1="-40.64" y1="-76.2" x2="-50.8" y2="-76.2" width="0.1524" layer="91"/>
+<wire x1="-50.8" y1="-76.2" x2="-50.8" y2="-88.9" width="0.1524" layer="91"/>
+<pinref part="U3" gate="U1" pin="QG"/>
+<wire x1="-50.8" y1="-88.9" x2="-76.2" y2="-88.9" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I2"/>
+<junction x="-40.64" y="-76.2"/>
+</segment>
+</net>
+<net name="N$45" class="0">
+<segment>
+<pinref part="U3" gate="U1" pin="QF"/>
+<wire x1="-76.2" y1="-86.36" x2="-53.34" y2="-86.36" width="0.1524" layer="91"/>
+<wire x1="-53.34" y1="-86.36" x2="-53.34" y2="-78.74" width="0.1524" layer="91"/>
+<wire x1="-53.34" y1="-78.74" x2="-40.64" y2="-78.74" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I3"/>
+<junction x="-40.64" y="-78.74"/>
+</segment>
+</net>
+<net name="N$46" class="0">
+<segment>
+<wire x1="-40.64" y1="-81.28" x2="-55.88" y2="-81.28" width="0.1524" layer="91"/>
+<wire x1="-55.88" y1="-81.28" x2="-55.88" y2="-83.82" width="0.1524" layer="91"/>
+<pinref part="U3" gate="U1" pin="QE"/>
+<wire x1="-55.88" y1="-83.82" x2="-76.2" y2="-83.82" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I4"/>
+<junction x="-40.64" y="-81.28"/>
+</segment>
+</net>
+<net name="N$47" class="0">
+<segment>
+<pinref part="U3" gate="U1" pin="QD"/>
+<wire x1="-76.2" y1="-81.28" x2="-76.2" y2="-82.296" width="0.1524" layer="91"/>
+<wire x1="-76.2" y1="-82.296" x2="-41.148" y2="-82.296" width="0.1524" layer="91"/>
+<wire x1="-41.148" y1="-82.296" x2="-41.148" y2="-83.82" width="0.1524" layer="91"/>
+<wire x1="-41.148" y1="-83.82" x2="-40.64" y2="-83.82" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I5"/>
+<junction x="-40.64" y="-83.82"/>
+</segment>
+</net>
+<net name="N$48" class="0">
+<segment>
+<pinref part="U3" gate="U1" pin="QC"/>
+<wire x1="-76.2" y1="-78.74" x2="-76.2" y2="-80.01" width="0.1524" layer="91"/>
+<wire x1="-76.2" y1="-80.01" x2="-42.672" y2="-80.01" width="0.1524" layer="91"/>
+<wire x1="-42.672" y1="-80.01" x2="-42.672" y2="-86.106" width="0.1524" layer="91"/>
+<wire x1="-42.672" y1="-86.106" x2="-40.64" y2="-86.106" width="0.1524" layer="91"/>
+<wire x1="-40.64" y1="-86.106" x2="-40.64" y2="-86.36" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I6"/>
+<junction x="-40.64" y="-86.36"/>
+</segment>
+</net>
+<net name="N$55" class="0">
+<segment>
+<pinref part="U3" gate="U1" pin="QB"/>
+<wire x1="-76.2" y1="-76.2" x2="-75.946" y2="-76.2" width="0.1524" layer="91"/>
+<wire x1="-75.946" y1="-76.2" x2="-75.946" y2="-77.47" width="0.1524" layer="91"/>
+<wire x1="-75.946" y1="-77.47" x2="-43.942" y2="-77.47" width="0.1524" layer="91"/>
+<wire x1="-43.942" y1="-77.47" x2="-43.942" y2="-89.154" width="0.1524" layer="91"/>
+<wire x1="-43.942" y1="-89.154" x2="-40.64" y2="-89.154" width="0.1524" layer="91"/>
+<wire x1="-40.64" y1="-89.154" x2="-40.64" y2="-88.9" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I7"/>
+<junction x="-40.64" y="-88.9"/>
+</segment>
+</net>
+<net name="N$56" class="0">
+<segment>
+<pinref part="U3" gate="U1" pin="QA"/>
+<wire x1="-76.2" y1="-73.66" x2="-74.93" y2="-73.66" width="0.1524" layer="91"/>
+<wire x1="-74.93" y1="-73.66" x2="-74.93" y2="-75.184" width="0.1524" layer="91"/>
+<wire x1="-74.93" y1="-75.184" x2="-45.212" y2="-75.184" width="0.1524" layer="91"/>
+<wire x1="-45.212" y1="-75.184" x2="-45.212" y2="-91.44" width="0.1524" layer="91"/>
+<wire x1="-45.212" y1="-91.44" x2="-40.64" y2="-91.44" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="1" pin="I8"/>
+<junction x="-40.64" y="-91.44"/>
+</segment>
+</net>
+<net name="N$35" class="0">
+<segment>
+<pinref part="U4" gate="U1" pin="QH"/>
+<wire x1="-73.66" y1="-195.58" x2="-50.8" y2="-195.58" width="0.1524" layer="91"/>
+<wire x1="-50.8" y1="-195.58" x2="-50.8" y2="-177.8" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="I1"/>
+<wire x1="-50.8" y1="-177.8" x2="-43.18" y2="-177.8" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$58" class="0">
+<segment>
+<pinref part="IC1" gate="G$1" pin="I2"/>
+<wire x1="-43.18" y1="-180.34" x2="-53.34" y2="-180.34" width="0.1524" layer="91"/>
+<wire x1="-53.34" y1="-180.34" x2="-53.34" y2="-193.04" width="0.1524" layer="91"/>
+<pinref part="U4" gate="U1" pin="QG"/>
+<wire x1="-53.34" y1="-193.04" x2="-73.66" y2="-193.04" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$60" class="0">
+<segment>
+<pinref part="U4" gate="U1" pin="QF"/>
+<wire x1="-73.66" y1="-190.5" x2="-55.88" y2="-190.5" width="0.1524" layer="91"/>
+<wire x1="-55.88" y1="-190.5" x2="-55.88" y2="-182.88" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="I3"/>
+<wire x1="-55.88" y1="-182.88" x2="-43.18" y2="-182.88" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$62" class="0">
+<segment>
+<pinref part="IC1" gate="G$1" pin="I4"/>
+<wire x1="-43.18" y1="-185.42" x2="-58.42" y2="-185.42" width="0.1524" layer="91"/>
+<wire x1="-58.42" y1="-185.42" x2="-58.42" y2="-187.96" width="0.1524" layer="91"/>
+<pinref part="U4" gate="U1" pin="QE"/>
+<wire x1="-58.42" y1="-187.96" x2="-73.66" y2="-187.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$64" class="0">
+<segment>
+<pinref part="U4" gate="U1" pin="QD"/>
+<wire x1="-73.66" y1="-185.42" x2="-73.66" y2="-186.944" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="-186.944" x2="-43.18" y2="-186.944" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="I5"/>
+<wire x1="-43.18" y1="-186.944" x2="-43.18" y2="-187.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$65" class="0">
+<segment>
+<pinref part="U4" gate="U1" pin="QC"/>
+<wire x1="-73.66" y1="-182.88" x2="-73.66" y2="-184.15" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="-184.15" x2="-73.914" y2="-184.15" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="-184.15" x2="-44.196" y2="-184.15" width="0.1524" layer="91"/>
+<wire x1="-44.196" y1="-184.15" x2="-44.196" y2="-190.5" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="I6"/>
+<wire x1="-44.196" y1="-190.5" x2="-43.18" y2="-190.5" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$66" class="0">
+<segment>
+<pinref part="U4" gate="U1" pin="QB"/>
+<wire x1="-73.66" y1="-180.34" x2="-73.66" y2="-181.102" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="-181.102" x2="-45.974" y2="-181.102" width="0.1524" layer="91"/>
+<wire x1="-45.974" y1="-181.102" x2="-45.974" y2="-193.04" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="I7"/>
+<wire x1="-45.974" y1="-193.04" x2="-43.18" y2="-193.04" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$67" class="0">
+<segment>
+<pinref part="U4" gate="U1" pin="QA"/>
+<wire x1="-73.66" y1="-177.8" x2="-73.66" y2="-179.07" width="0.1524" layer="91"/>
+<wire x1="-73.66" y1="-179.07" x2="-47.498" y2="-179.07" width="0.1524" layer="91"/>
+<wire x1="-47.498" y1="-179.07" x2="-47.498" y2="-195.58" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="I8"/>
+<wire x1="-47.498" y1="-195.58" x2="-43.18" y2="-195.58" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="3.3V" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="OUT-"/>
+<wire x1="-231.14" y1="71.12" x2="-236.22" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="GND14" gate="G$1" pin="3.3V"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="IN-"/>
+<wire x1="-195.58" y1="71.12" x2="-190.5" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="GND15" gate="G$1" pin="3.3V"/>
+</segment>
+</net>
+<net name="N$69" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="OUT+"/>
+<pinref part="D1" gate="1" pin="A"/>
+<wire x1="-251.46" y1="-2.54" x2="-241.3" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="-231.14" y1="60.96" x2="-251.46" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="-251.46" y1="60.96" x2="-251.46" y2="-2.54" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="24V" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="IN+"/>
+<wire x1="-195.58" y1="60.96" x2="-190.5" y2="60.96" width="0.1524" layer="91"/>
+<label x="-190.5" y="60.96" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="IC4" gate="1" pin="VS"/>
+<wire x1="-45.72" y1="111.76" x2="-45.72" y2="109.22" width="0.1524" layer="91"/>
+<junction x="-45.72" y="111.76"/>
+<label x="-45.72" y="109.22" size="1.778" layer="95" rot="R270" xref="yes"/>
+</segment>
+<segment>
+<pinref part="IC3" gate="1" pin="VS"/>
+<wire x1="-40.64" y1="-96.52" x2="-40.64" y2="-93.98" width="0.1524" layer="91"/>
+<junction x="-40.64" y="-93.98"/>
+<label x="-40.64" y="-96.52" size="1.778" layer="95" rot="R270" xref="yes"/>
 </segment>
 </net>
 </nets>
