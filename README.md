@@ -12,7 +12,7 @@
  
  ### Anschlüsse
   ![2x8 Kabel Pinout](./doc/CablePins.png)
- * 2x 16 Pin Kabelanschluss
+ * 2x 16 Pin Kabelanschlüsse
  * 8 Pin Adresse (jeweils 1Bit auf "1")
  * 8 Pin Daten (7-Segmente)
  * Adressen werden gemultiplext
