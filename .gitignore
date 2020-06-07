@@ -5,6 +5,17 @@
 *.s#4
 *.s#5
 *.s#6
+*.b#1
+*.b#2
+*.b#3
+*.b#4
+*.b#5
+*.b#6
+*.b#7
+*.b#8
+*.b#9
+*.job
+*.pro
 *.lck
 *.sch.lck
 ./test/.max7219_high_voltage.sch.lck
