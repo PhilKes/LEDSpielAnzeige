@@ -8,4 +8,3 @@
 *.lck
 *.sch.lck
 ./test/.max7219_high_voltage.sch.lck
-/wemos-webapp/
