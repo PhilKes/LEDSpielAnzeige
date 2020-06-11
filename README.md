@@ -10,7 +10,7 @@
  * DecimalPoint Anschlüsse für ":",">","|",...
  
  ### Anschlüsse
-  ![2x8 Kabel Pinout](./doc/CablePins.png)
+  ![2x8 Kabel Pinout](doc/cablepins_original.png)
  * 2x 16 Pin Kabelanschlüsse
  * 8 Pin Adresse (jeweils 1Bit auf "1")
  * 8 Pin Daten (7-Segmente)
@@ -18,6 +18,9 @@
  
  ### Schaltplan
  ![Anzeige_Schaltplan](./doc/eagle/LEDAnzeige_Multiplexing.png)
+  ---
+ ### Board
+ ![Anzeige_Board](./doc/eagle/LEDAnzeige_Multiplexing_Board.png)
  ---
  #### Bauteile
   * [LM2596 Step-Down DC Buck Converter](https://www.reichelt.de/schaltregler-step-down-adj-3a-4-75-40vi-to220-5-lm2596tvadj-p255435.html?&trstct=pos_7&nbc=1)
