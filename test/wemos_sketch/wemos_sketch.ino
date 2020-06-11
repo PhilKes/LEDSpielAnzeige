@@ -19,8 +19,6 @@ byte digitData=B00000001;
  
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW); 
-
   pinMode(shiftDigitDataPin, OUTPUT);
   pinMode(shiftDigitClkPin, OUTPUT);
   pinMode(shiftDigitLatchPin, OUTPUT);
@@ -109,11 +107,24 @@ void shiftDigits(){
 }
  
 void loop() {
-  initDigits();
-  initSegs();
-  delay(3000);
   setDigits(0);
   setSegs(0,0);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(3000);
+  
+  setSegs(255,255);
+  setDigits(0);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(3000);
+  
+  setSegs(255,255);
+  setDigits(255);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(3000);
+  
+  setSegs(0,0);
+  setDigits(255);
+  digitalWrite(LED_BUILTIN, HIGH);
   delay(3000);
   
 }
