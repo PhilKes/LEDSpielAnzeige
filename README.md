@@ -17,7 +17,7 @@
  * Adressen werden gemultiplext
  
  ### Schaltplan
- ![Anzeige_Schaltplan](./doc/schaltplan.png)
+ ![Anzeige_Schaltplan](./doc/eagle/LEDAnzeige_Multiplexing.png)
  ---
  #### Bauteile
   * [LM2596 Step-Down DC Buck Converter](https://www.reichelt.de/schaltregler-step-down-adj-3a-4-75-40vi-to220-5-lm2596tvadj-p255435.html?&trstct=pos_7&nbc=1)
