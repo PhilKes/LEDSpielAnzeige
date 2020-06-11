@@ -21,6 +21,7 @@
   ---
  ### Board
  ![Anzeige_Board](./doc/eagle/LEDAnzeige_Multiplexing_Board.png)
+ [Mirrored Image for Soldering](./doc/eagle/LEDAnzeige_Multiplexing_Board_mirror.png)
  ---
  #### Bauteile
   * [LM2596 Step-Down DC Buck Converter](https://www.reichelt.de/schaltregler-step-down-adj-3a-4-75-40vi-to220-5-lm2596tvadj-p255435.html?&trstct=pos_7&nbc=1)

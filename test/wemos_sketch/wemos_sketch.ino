@@ -1,65 +1,93 @@
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
+//#include <ESP8266WiFi.h>
+//#include <ESP8266mDNS.h>
+//#include <WiFiUdp.h>
 
-const char* ssid = "WLAN Ke";             //!!!!!!!!!!!!!!!!!!!!! modify this
-const char* password = "3616949541664967";                //!!!!!!!!!!!!!!!!!!!!!modify this
+//const char* ssid = "WLAN Ke";             //!!!!!!!!!!!!!!!!!!!!! modify this
+//const char* password = "3616949541664967";                //!!!!!!!!!!!!!!!!!!!!!modify this
 
-int shiftDigitDataPin=D0;
+int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
 int shiftDigitLatchPin=D2;
 
-int shiftSegDataPin=D1;
+int shiftSegDataPin=D0;
 int shiftSegClkPin=D6;
 int shiftSegLatchPin=D5;
 
 byte digitData=B00000001;
 
-WiFiServer server(80);
+//WiFiServer server(80);
  
 void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW); 
+
+  pinMode(shiftDigitDataPin, OUTPUT);
+  pinMode(shiftDigitClkPin, OUTPUT);
+  pinMode(shiftDigitLatchPin, OUTPUT);
+
+  pinMode(shiftSegDataPin, OUTPUT);
+  pinMode(shiftSegClkPin, OUTPUT);
+  pinMode(shiftSegLatchPin, OUTPUT);
+
   Serial.begin(115200);
   delay(10);
- 
- 
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
  
   // Connect to WiFi network
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
-  Serial.println(ssid);
+  //Serial.println(ssid);
  
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  //WiFi.mode(WIFI_STA);
+  //WiFi.begin(ssid, password);
  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
+  //while (WiFi.status() != WL_CONNECTED) {
+ //   delay(500);
+ //   Serial.print(".");
+ // }
   Serial.println("");
   Serial.println("WiFi connected");
  
   // Start the server
-  server.begin();
+  //server.begin();
   Serial.println("Server started");
  
   // Print the IP address
   Serial.print("Use this URL : ");
   Serial.print("http://");
-  Serial.print(WiFi.localIP());
+//  Serial.print(WiFi.localIP());
   Serial.println("/");
+
+ //initDigits();
+ //initSegs();
+ Serial.println("Init complete");
+}
+
+//Init all Digits to 1st On, all other off
+void initDigits(){
+  setDigits(255);
+}
+
+//Init all Segments to on
+void initSegs(){
+  setSegs(255,255);
 }
 
 // ShiftOut Segment values
-void shiftSeg(unsigned int value){
+void setSegs(byte left,byte right){
     digitalWrite(shiftSegLatchPin, LOW);
     // shift out the 16 bits:
-    shiftOut(shiftSegDataPin, shiftSegClkPin, MSBFIRST, (byte)value&255);  
-    shiftOut(shiftSegDataPin, shiftSegClkPin, MSBFIRST, (byte)((value>>8)&255));  
+    shiftOut(shiftSegDataPin, shiftSegClkPin, MSBFIRST, left);  
+    shiftOut(shiftSegDataPin, shiftSegClkPin, MSBFIRST, right);  
 
     digitalWrite(shiftSegLatchPin, HIGH);
+}
+
+
+void setDigits(byte value){
+    digitalWrite(shiftDigitLatchPin, LOW);
+    shiftOut(shiftDigitDataPin, shiftDigitClkPin, MSBFIRST, value);
+    digitalWrite(shiftDigitLatchPin, HIGH);
 }
 
 // Shift the "1" to the left, if last Digit reached, reset to first Digit
@@ -81,6 +109,11 @@ void shiftDigits(){
 }
  
 void loop() {
-    
- 
+  initDigits();
+  initSegs();
+  delay(3000);
+  setDigits(0);
+  setSegs(0,0);
+  delay(3000);
+  
 }
