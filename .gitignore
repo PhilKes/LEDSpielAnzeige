@@ -18,4 +18,5 @@
 *.pro
 *.lck
 *.sch.lck
-./test/.max7219_high_voltage.sch.lck
+/wemos/
+/esp8266-react-master/
