@@ -15687,12 +15687,25 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <wire x1="-114.3" y1="57.15" x2="-114.3" y2="59.69" width="0.1524" layer="91"/>
 <pinref part="U1" gate="U1" pin="GND"/>
 <wire x1="-114.3" y1="59.69" x2="-111.76" y2="59.69" width="0.1524" layer="91"/>
+<pinref part="U1" gate="U1" pin="G"/>
+<wire x1="-111.76" y1="64.77" x2="-114.3" y2="64.77" width="0.1524" layer="91"/>
+<wire x1="-114.3" y1="64.77" x2="-114.3" y2="59.69" width="0.1524" layer="91"/>
+<junction x="-114.3" y="59.69"/>
+<junction x="-111.76" y="64.77"/>
+<junction x="-114.3" y="64.77"/>
+<junction x="-111.76" y="59.69"/>
 </segment>
 <segment>
 <pinref part="U2" gate="U1" pin="GND"/>
 <wire x1="-99.06" y1="7.62" x2="-101.6" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="-101.6" y1="7.62" x2="-101.6" y2="5.08" width="0.1524" layer="91"/>
 <pinref part="GND1" gate="G$1" pin="3.3V"/>
+<pinref part="U2" gate="U1" pin="G"/>
+<wire x1="-99.06" y1="12.7" x2="-101.6" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="-101.6" y1="12.7" x2="-101.6" y2="7.62" width="0.1524" layer="91"/>
+<junction x="-101.6" y="7.62"/>
+<junction x="-99.06" y="12.7"/>
+<junction x="-101.6" y="12.7"/>
 </segment>
 <segment>
 <pinref part="C1-C8" gate="G$1" pin="GND"/>
@@ -15703,9 +15716,17 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 </segment>
 <segment>
 <pinref part="GND8" gate="G$1" pin="3.3V"/>
-<wire x1="-99.06" y1="-72.39" x2="-99.06" y2="-67.31" width="0.1524" layer="91"/>
+<wire x1="-99.06" y1="-72.39" x2="-99.06" y2="-68.58" width="0.1524" layer="91"/>
 <pinref part="U3" gate="U1" pin="GND"/>
+<wire x1="-99.06" y1="-68.58" x2="-99.06" y2="-67.31" width="0.1524" layer="91"/>
 <wire x1="-99.06" y1="-67.31" x2="-96.52" y2="-67.31" width="0.1524" layer="91"/>
+<pinref part="U3" gate="U1" pin="G"/>
+<wire x1="-96.52" y1="-62.23" x2="-99.06" y2="-62.23" width="0.1524" layer="91"/>
+<wire x1="-99.06" y1="-62.23" x2="-99.06" y2="-67.31" width="0.1524" layer="91"/>
+<junction x="-99.06" y="-67.31"/>
+<junction x="-99.06" y="-62.23"/>
+<junction x="-96.52" y="-62.23"/>
+<junction x="-96.52" y="-67.31"/>
 </segment>
 <segment>
 <pinref part="GND2" gate="G$1" pin="3.3V"/>

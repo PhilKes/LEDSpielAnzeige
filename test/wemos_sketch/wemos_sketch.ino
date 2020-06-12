@@ -26,39 +26,17 @@ void setup() {
   pinMode(shiftSegDataPin, OUTPUT);
   pinMode(shiftSegClkPin, OUTPUT);
   pinMode(shiftSegLatchPin, OUTPUT);
-
-  Serial.begin(115200);
-  delay(10);
- 
-  // Connect to WiFi network
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  //Serial.println(ssid);
- 
-  //WiFi.mode(WIFI_STA);
-  //WiFi.begin(ssid, password);
- 
-  //while (WiFi.status() != WL_CONNECTED) {
- //   delay(500);
- //   Serial.print(".");
- // }
-  Serial.println("");
-  Serial.println("WiFi connected");
- 
-  // Start the server
-  //server.begin();
-  Serial.println("Server started");
- 
-  // Print the IP address
-  Serial.print("Use this URL : ");
-  Serial.print("http://");
-//  Serial.print(WiFi.localIP());
-  Serial.println("/");
-
  //initDigits();
- //initSegs();
- Serial.println("Init complete");
+
+
+  
+   digitalWrite(LED_BUILTIN, HIGH);
+   delay(500);
+   digitalWrite(LED_BUILTIN, LOW);
+   delay(500);
+   digitalWrite(LED_BUILTIN, HIGH);
+
+
 }
 
 //Init all Digits to 1st On, all other off
@@ -79,13 +57,26 @@ void setSegs(byte left,byte right){
     shiftOut(shiftSegDataPin, shiftSegClkPin, MSBFIRST, right);  
 
     digitalWrite(shiftSegLatchPin, HIGH);
+     delayMicroseconds(100);
+}
+
+void setSegs1(byte left){
+    digitalWrite(shiftSegLatchPin, LOW);
+    delayMicroseconds(10);
+    // shift out the 16 bits:
+    shiftOut(shiftSegDataPin, shiftSegClkPin, MSBFIRST, left);  
+
+    digitalWrite(shiftSegLatchPin, HIGH);
+    delayMicroseconds(100);
 }
 
 
 void setDigits(byte value){
     digitalWrite(shiftDigitLatchPin, LOW);
+    delayMicroseconds(10);
     shiftOut(shiftDigitDataPin, shiftDigitClkPin, MSBFIRST, value);
     digitalWrite(shiftDigitLatchPin, HIGH);
+    delayMicroseconds(100);
 }
 
 // Shift the "1" to the left, if last Digit reached, reset to first Digit
@@ -104,27 +95,20 @@ void shiftDigits(){
     digitalWrite(shiftDigitClkPin,LOW);
     
     digitalWrite(shiftSegLatchPin, HIGH);
+    delayMicroseconds(100);
+    
 }
  
 void loop() {
-  setDigits(0);
-  setSegs(0,0);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(3000);
-  
-  setSegs(255,255);
-  setDigits(0);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(3000);
-  
-  setSegs(255,255);
-  setDigits(255);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(3000);
-  
-  setSegs(0,0);
-  setDigits(255);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(3000);
-  
+  setSegs1(255);
+  while(true){
+     for(int i=0;i<8;i++){
+        if(i==0){
+          setDigits(255);
+        }else{
+           setDigits(0);
+        }
+        delayMicroseconds(100);
+     }
+  }
 }
