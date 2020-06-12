@@ -1,10 +1,3 @@
-//#include <ESP8266WiFi.h>
-//#include <ESP8266mDNS.h>
-//#include <WiFiUdp.h>
-
-//const char* ssid = "WLAN Ke";             //!!!!!!!!!!!!!!!!!!!!! modify this
-//const char* password = "3616949541664967";                //!!!!!!!!!!!!!!!!!!!!!modify this
-
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
 int shiftDigitLatchPin=D2;
@@ -14,8 +7,6 @@ int shiftSegClkPin=D6;
 int shiftSegLatchPin=D5;
 
 byte digitData=B00000001;
-
-//WiFiServer server(80);
  
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
