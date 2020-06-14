@@ -1,5 +1,20 @@
 #include <modes.h>
 
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+
+// WiFi Settings
+const char* ssid = "Network Name";
+const char* password = "WiFi Password";
+const char* host = "Wemos_OTA";
+
+//DEBUG true, for USB debugging
+#define DEBUG true
+//OTA_ENABLED true, for Over The Air Updates (WiFi sketch upload)
+#define OTA_ENABLED false
+
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
 int shiftDigitLatchPin=D2;
@@ -7,6 +22,14 @@ int shiftDigitLatchPin=D2;
 int shiftSegDataPin=D0;
 int shiftSegClkPin=D6;
 int shiftSegLatchPin=D5;
+
+inline void flashLEDBuiltIn(){
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
+  digitalWrite(LED_BUILTIN, HIGH);
+} 
 
 // ShiftOut Segment values
 inline void setSegs(byte left,byte right)
@@ -66,48 +89,45 @@ void digitsMap()
   }  
 }
 
-volatile byte digitData=B00000001;
+volatile byte digitData=B10000000;
 
 //Index of current active Display (starting with 1)
-volatile byte displayIdx=1;
+volatile byte displayIdx=0;
 
 //Turns all Segs off, shift the Digits "1" to the left, if last Digit reached, reset to first Digit
 //returns true if last Digit was displayed
-inline boolean nextDigit()
+inline void nextDigit()
 {
-    setSegs(0,0); //Turn all Segments off
-
-    digitalWrite(shiftDigitLatchPin, LOW);
-    setDigits(digitData);
-
-    digitData=digitData<<1;
-    if(digitData==0)
+    if(digitData==B10000000)
     {
-      digitData=1;
-      displayIdx=1;
-      return true;
+      digitData=B00000001;
+      displayIdx=0;
     }
     else
     {
+      digitData=digitData<<1;
       displayIdx++;
-      return false;
     }
+
+    setSegs(0,0); //Turn all Segments off
+    setDigits(digitData);
 }
 
 /* main multiplex Loop */
- inline void multiplexLoop(int multiDel)
+inline void multiplexLoop(int multiDel)
  {
-   while(nextDigit())
-   {
+   do{
+      nextDigit();
       setSegs(digitsLeft[displayIdx],digitsRight[displayIdx]); //Load Segments for new Digits
       delayMicroseconds(multiDel);
-   }
-   
+   }while(digitData!=B10000000);
+   multiplexCount++;
  }
 
 // Set pinModes + init Digits&Segments
  void setup() 
  {
+
   pinMode(LED_BUILTIN, OUTPUT);
 
   pinMode(shiftDigitDataPin, OUTPUT);
@@ -121,15 +141,53 @@ inline boolean nextDigit()
   initDigits();
   initSegs();
 
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(500);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(500);
-  digitalWrite(LED_BUILTIN, HIGH);
+  #if DEBUG
+  Serial.begin(115200);
+  #endif
 
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    WiFi.begin(ssid, password);
+    #if DEBUG
+    Serial.println("Retrying connection...");
+    #endif
+  }
+  #if OTA_ENABLED
+  ArduinoOTA.setHostname(host);
+  ArduinoOTA.onStart([]() { // switch off all Digits&Segments during upgrade
+    initDigits();
+    initSegs();
+    digitData=B00000001;
+    displayIdx=1;
+  });
+  ArduinoOTA.onEnd([]() { // do a fancy thing with our board led at end
+    flashLEDBuiltIn();
+  });
+
+  ArduinoOTA.onError([](ota_error_t error) {
+    (void)error;
+    ESP.restart();
+  });
+
+  /* setup the OTA server */
+  ArduinoOTA.begin();
+  #endif
+  #if DEBUG
+  Serial.println("Ready");
+  #endif
+
+  flashLEDBuiltIn();
 }
 
+int mode=0;
+
 void loop() {
+  #if OTA_ENABLED
+  ArduinoOTA.handle();
+  #endif
+
   multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
-  numbersLoop(500);        //set current Segment values (digitsLeft,digitsRight)
+  numbersLoop(500);               //set current Segment values in selected mode (digitsLeft,digitsRight)
 }

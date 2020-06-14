@@ -1,8 +1,5 @@
 #include <Arduino.h>
 
-//Multiplex time per Digits in microseconds
-const int multiplexDelay=1700;
-
 volatile byte numbers[]= 
 {
   B10111011,
@@ -47,13 +44,15 @@ volatile byte digitsRight[]=
  *  CALL ANY METHOD AFTER multiplexLoop() IN loop() FUNCTION 
 */
 
+//Count amount of multiplexLoop() calls for timings
 volatile int multiplexCount=0;
-volatile int num=0;
+//Multiplex time per Digits in microseconds
+const int multiplexDelay=1700;
 
 //All Digits loop numbers 0-9
 // speedInMs: time for each number in milliseconds
+volatile int num=0;
 inline void numbersLoop(int speedInMs){
-    multiplexCount++;
     if(multiplexCount > (speedInMs*1000)/(multiplexDelay*8))
     {
         multiplexCount=0;
@@ -69,4 +68,26 @@ inline void numbersLoop(int speedInMs){
         }
 
     }
+}
+
+int digit=0;
+inline void digitMappings(int speedInMs)
+{
+  for (byte i = 0; i < 8; i++)
+  {
+    digitsLeft[i]=0;
+    digitsRight[i]=0;
+  }
+  if(multiplexCount > (speedInMs*1000)/(multiplexDelay*8))
+  {
+    multiplexCount=0;
+    digit++;
+    if(digit >7)
+    {
+      digit=0;
+      delay(1000); //to highlight last digit reached
+    }
+  }
+  digitsLeft[digit]=B11111111;
+  digitsRight[digit]=B11111111;
 }
