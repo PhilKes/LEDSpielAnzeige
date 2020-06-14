@@ -5,12 +5,16 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <wifi_settings.h>
+#include <NTPClient.h>
 
 
 //DEBUG true, for USB debugging
-#define DEBUG true
+#define DEBUG false
 //OTA_ENABLED true, for Over The Air Updates (WiFi sketch upload)
-#define OTA_ENABLED false
+#define OTA_ENABLED true
+
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 7200, 60000);
 
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
@@ -176,15 +180,19 @@ inline void multiplexLoop(int multiDel)
   #endif
 
   flashLEDBuiltIn();
+  timeClient.begin();
 }
 
 int mode=0;
 
 void loop() {
+  timeClient.update();
   #if OTA_ENABLED
   ArduinoOTA.handle();
   #endif
 
   multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
-  numbersLoop(500);               //set current Segment values in selected mode (digitsLeft,digitsRight)
+  //numbersLoop(1000);               //set current Segment values in selected mode (digitsLeft,digitsRight)
+  
+  digitMappings(2000);
 }
