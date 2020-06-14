@@ -4,11 +4,8 @@
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
+#include <wifi_settings.h>
 
-// WiFi Settings
-const char* ssid = "Network Name";
-const char* password = "WiFi Password";
-const char* host = "Wemos_OTA";
 
 //DEBUG true, for USB debugging
 #define DEBUG true
