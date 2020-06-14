@@ -18,5 +18,4 @@
 *.pro
 *.lck
 *.sch.lck
-/wemos/
 /esp8266-react-master/
