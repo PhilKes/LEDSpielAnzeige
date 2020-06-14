@@ -19,3 +19,4 @@
 *.lck
 *.sch.lck
 /wemos/wemos_react_platformio
+/wemos/wemos_platformio/src/wifi_settings.h
