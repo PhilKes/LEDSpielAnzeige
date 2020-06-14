@@ -18,4 +18,4 @@
 *.pro
 *.lck
 *.sch.lck
-/esp8266-react-master/
+/wemos/wemos_react_platformio
