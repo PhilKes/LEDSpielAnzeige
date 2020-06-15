@@ -5,6 +5,7 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <wifi_settings.h>
+#include <ESP8266WiFiMulti.h>
 #include <NTPClient.h>
 
 
@@ -13,6 +14,7 @@
 //OTA_ENABLED true, for Over The Air Updates (WiFi sketch upload)
 #define OTA_ENABLED true
 
+ESP8266WiFiMulti WiFiMulti;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 7200, 60000);
 
@@ -23,6 +25,7 @@ int shiftDigitLatchPin=D2;
 int shiftSegDataPin=D0;
 int shiftSegClkPin=D6;
 int shiftSegLatchPin=D5;
+
 
 inline void flashLEDBuiltIn(){
   digitalWrite(LED_BUILTIN, HIGH);
@@ -146,10 +149,13 @@ inline void multiplexLoop(int multiDel)
   Serial.begin(115200);
   #endif
 
+  Serial.begin(9600);
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    WiFiMulti.addAP(ssid, password);
     WiFi.begin(ssid, password);
     #if DEBUG
     Serial.println("Retrying connection...");
@@ -181,18 +187,35 @@ inline void multiplexLoop(int multiDel)
 
   flashLEDBuiltIn();
   timeClient.begin();
+  
+
 }
 
 int mode=0;
 
 void loop() {
-  timeClient.update();
+
   #if OTA_ENABLED
   ArduinoOTA.handle();
   #endif
+  
+
 
   multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
   //numbersLoop(1000);               //set current Segment values in selected mode (digitsLeft,digitsRight)
-  
-  digitMappings(2000);
+  if (multiplexCount% 10 == 0) {
+    /**TODO
+    //save_current_disp
+    then do update
+    refresh
+    */
+    timeClient.update();
+
+    int minutes = timeClient.getMinutes();
+    int hours = timeClient.getHours();
+    int seconds = timeClient.getSeconds();
+
+    show_time(hours, minutes, seconds); 
+  } 
+
 }
