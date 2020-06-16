@@ -106,7 +106,6 @@ inline void digitMappings(int speedInMs)
 }
 
 
-
 volatile int temp = -99;
 
 volatile int second_min;
@@ -114,6 +113,9 @@ volatile int first_min;
 
 volatile int second_h;
 volatile int first_h;
+
+volatile bool dispSeconds = true;
+volatile bool dispTemp = true;
 volatile int second_sec;
 volatile int first_sec;
   
@@ -145,22 +147,25 @@ inline void setScore(){
     digitsLeft[0] = B01000000;
     digitsLeft[4] = numbers[scoreHome * -1];
   } if (scoreHome<10 && scoreHome > -1){
-    digitsLeft[0] = numbers[scoreHome];
-    digitsLeft[4] = 0;
+    digitsLeft[4] = numbers[scoreHome];
+    digitsLeft[0] = 0;
   } if (scoreHome>9 && scoreHome <100) {
     second_score_home = scoreHome %10;
     first_score_home = (scoreHome-second_score_home)/10; 
     digitsLeft[4] = numbers[second_score_home];
     digitsLeft[0] = numbers[first_score_home];
   } if (scoreHome>99 && scoreHome <200) {
+    scoreHome = scoreHome -100;
     second_score_home = scoreHome %10;
     first_score_home = (scoreHome-second_score_home)/10; 
+    scoreHome = scoreHome +100;
     digitsLeft[4] = numbers[second_score_home] + B00000100;
     digitsLeft[0] = numbers[first_score_home] + B00000100;
 
   } if (scoreHome>199) {
     digitsLeft[4] = numbers[9] + B00000100;
     digitsLeft[0] = numbers[9] + B00000100;
+    scoreHome = 199;
 
   } if (scoreHome < -11) {
     scoreHome = 0;
@@ -180,15 +185,17 @@ inline void setScore(){
     digitsLeft[5] = numbers[second_score_guest];
     digitsLeft[1] = numbers[first_score_guest];
   } if (scoreGuest>99 && scoreGuest <200) {
+    scoreGuest = scoreGuest -100;
     second_score_guest = scoreGuest %10;
     first_score_guest = (scoreGuest-second_score_guest)/10; 
+    scoreGuest = scoreGuest +100;
     digitsLeft[5] = numbers[second_score_guest] + B00000100;
     digitsLeft[1] = numbers[first_score_guest] + B00000100;
 
   } if (scoreGuest>199) {
     digitsLeft[5] = numbers[9] + B00000100;
     digitsLeft[1] = numbers[9] + B00000100;
-
+    scoreGuest = 199;
   } if (scoreGuest < -11) {
     scoreGuest = 0;
     digitsLeft[5] = numbers[scoreGuest];
@@ -256,7 +263,9 @@ inline void show_time(int hours, int minutes, int seconds) {
   
 
   if (multiplexCount == 200 ) {
-    get_weather();
+    if (dispTemp){
+      get_weather();
+    }
   }
 
   if (multiplexCount>180000){
@@ -275,23 +284,27 @@ inline void show_time(int hours, int minutes, int seconds) {
     digitsRight[2] = numbers[first_h];
     digitsRight[6] = numbers[second_h];
 
-    digitsRight[1] = numbers[first_sec];
-    digitsRight[5] = numbers[second_sec];
-
-    if (negativeTemp){
-      digitsRight[3] = B01000000;
-      negativeTemp = false;
+    if (dispSeconds){
+      digitsRight[1] = numbers[first_sec];
+      digitsRight[5] = numbers[second_sec];
     } else {
-      digitsRight[3] = 0;
+      digitsRight[1] = 0;
+      digitsRight[5] = 0;
     }
-    digitsRight[4] = numbers[second_temp];
-    digitsRight[0] = numbers[first_temp];
+
+    if (dispTemp){
+      if (negativeTemp){
+        digitsRight[3] = B01000000;
+        negativeTemp = false;
+      } else {
+        digitsRight[3] = 0;
+      }
+      digitsRight[4] = numbers[second_temp];
+      digitsRight[0] = numbers[first_temp];
+    } else {
+      digitsRight[4] = 0;
+      digitsRight[0] = 0;      
+    }
 
     setScore();
-    /** Joe 
-    digitsLeft[3] = B10111010;
-    digitsLeft[1] = numbers[0];
-    digitsLeft[5] = B11100011;
-    */
-
 }

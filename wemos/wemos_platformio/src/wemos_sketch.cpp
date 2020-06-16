@@ -20,6 +20,8 @@ NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 7200, 60000);
 const int port = 8181;
 WiFiServer cmd_server(8181);
 
+String readString = String(100); 
+
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
 int shiftDigitLatchPin=D2;
@@ -138,43 +140,6 @@ inline void multiplexLoop(int multiDel)
    multiplexCount++;
  }
 
-inline char *handleCmd(uint8_t cmd) {
-  
-  switch(cmd) {
-
-    case 50:
-    scoreGuest = scoreGuest + 1;
-    return "up guest \n";
-
-    case 49:
-    scoreGuest = scoreGuest-1;
-    return "down guest \n";
-
-    case 51:
-    scoreHome = scoreHome +1;
-    return "up home \n";
-    
-    case 52:
-    scoreHome = scoreHome -1;
-    return "down home \n";
-
-    case 97:
-    scoreOnOff = 1;
-    scoreHome = 0;
-    scoreGuest =0;
-    return "on \n";
-
-    case 100:
-    scoreOnOff = 0;
-    return "off \n";
-
-    default:
-    return "";
-  }
-
-}
-
-
 
 // Set pinModes + init Digits&Segments
  void setup() 
@@ -247,32 +212,106 @@ void loop() {
   ArduinoOTA.handle();
   #endif
   WiFiClient cmd_client = cmd_server.available();
-  
- 
 
-  
   multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
 
-  while(cmd_client.connected()){
-    multiplexLoop(multiplexDelay);
-    if(cmd_client.available()) {
-      
-      uint8_t buf;
-      size_t length =1;
-      cmd_client.read(&buf, length);
-      cmd_client.write(handleCmd(buf));
+  if (cmd_client){
+  while(cmd_client.connected())
+  {
+    //multiplexLoop(multiplexDelay);
+
+    char c = cmd_client.read();
+    if (readString.length() < 100) {
+      readString = readString + c; 
+      }
+    if (c == '\n') {  
+      if(readString.indexOf("3=Up") > -1) {
+        scoreHome = scoreHome +1;
+      }
+      if(readString.indexOf("3=Down") > -1){
+        scoreHome = scoreHome -1;
+      }
+      if(readString.indexOf("4=Up") > -1) {
+        scoreGuest = scoreGuest +1;
+      }
+      if(readString.indexOf("4=Down") > -1){
+        scoreGuest = scoreGuest -1;
+      }
+      if(readString.indexOf("all=Scores+off") > -1){
+        scoreOnOff = 0;
+      }
+      if(readString.indexOf("all=Scores+on") > -1){
+        scoreOnOff = 1;
+        scoreHome = 0;
+        scoreGuest = 0;
+      }
+      if(readString.indexOf("all=Display+Seconds+On+or+Off") > -1){
+        if (dispSeconds){
+          dispSeconds = false;
+        } else {
+          dispSeconds = true;
+        }
+      }
+      if(readString.indexOf("all=Display+Temperature+On+or+Off") > -1){
+        if (dispTemp){
+          dispTemp = false;
+        } else {
+          dispTemp = true;
+        }
+      }      
+      if (readString.indexOf("quantityHome") > -1){
+        int index = readString.indexOf("quantityHome");
+        String num = readString.substring(index+13);
+        scoreHome = scoreHome + num.toInt();
+      }
+      if (readString.indexOf("quantityGuest") > -1){
+        int index = readString.indexOf("quantityGuest");
+        String num = readString.substring(index+14);
+        scoreGuest = scoreGuest + num.toInt();
+      }
+
+      cmd_client.println("HTTP/1.1 200 OK");
+      cmd_client.println("Content-Type: text/html");
+      cmd_client.println();
+      cmd_client.print("<html><head>");
+      cmd_client.print("<title>Arduino Webserver Anzeige</title>");
+      cmd_client.println("</head>");
+      cmd_client.print("<body bgcolor='#444444'>");
+      //---Überschrift---
+      cmd_client.println("<br><hr />");
+      cmd_client.println("<h1><div align='center'><font color='#2076CD'>Arduino Webserver for Score</font color></div></h1>");
+      cmd_client.println("<hr /><br>");
+      cmd_client.println("<div align='left'><font face='Verdana' color='#FFFFFF'>Scores:</font></div>");
+      cmd_client.println("<form method=get><input type=submit name=all value='Scores on'></form>");
+      cmd_client.println("<form method=get><input type=submit name=all value='Scores off'></form>");
+      cmd_client.println("<br>");
+      cmd_client.println("<table border='1' width='500' cellpadding='5'>");
+      cmd_client.println("<tr bgColor='#222222'>");
+      cmd_client.println("<td bgcolor='#222222'><font face='Verdana' color='#CFCFCF' size='2'>Home<br></font></td>");
+      cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=submit name=3 value='Up'></form></td>");
+      cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=submit name=3 value='Down'></form></td>");
+      cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=quantityHome min='-10' max ='100'></form></td>");      
+      cmd_client.println("</tr>");
+      cmd_client.println("<tr bgColor='#222222'>");
+      cmd_client.println("<td bgcolor='#222222'><font face='Verdana' color='#CFCFCF' size='2'>Guest<br></font></td>");
+      cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=submit name=4 value='Up'></form></td>");
+      cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=submit name=4 value='Down'></form></td>");
+      cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=quantityGuest min='-10' max ='100'></form></td>"); 
+      cmd_client.println("</tr>");
+      cmd_client.println("</tr>");
+      cmd_client.println("</table>");
+      cmd_client.println("<br>");
+      cmd_client.println("<form method=get><input type=submit name=all value='Display Seconds On or Off'></form>");
+      cmd_client.println("<form method=get><input type=submit name=all value='Display Temperature On or Off'></form>");
+      cmd_client.println("</body></html>");
+      readString="";
+
       cmd_client.stop();
     } 
     multiplexLoop(multiplexDelay);
-  }
+  }}
 
   if (multiplexCount% 50 == 0) {
-    /**TODO
-    //save_current_disp
-    then do update
-    refresh
-    */
-    //setScore();
     timeClient.update();
 
     minutes = timeClient.getMinutes();
