@@ -5,8 +5,6 @@
 #include <ArduinoJson.h>
 WiFiClient client;
 
-volatile byte temp = 99;
-
 volatile byte numbers[]= 
 {
   B10111011,
@@ -108,17 +106,96 @@ inline void digitMappings(int speedInMs)
 }
 
 
-//int temp = 0;
-int second_min;
-int first_min;
 
-int second_h;
-int first_h;
-int second_sec;
-int first_sec;
+volatile int temp = -99;
+
+volatile int second_min;
+volatile int first_min;
+
+volatile int second_h;
+volatile int first_h;
+volatile int second_sec;
+volatile int first_sec;
   
-int second_temp;
-int first_temp;
+volatile bool negativeTemp;
+volatile int second_temp;
+volatile int first_temp;
+
+volatile int second_score_home;
+volatile int first_score_home;
+volatile int second_score_guest;
+volatile int first_score_guest;
+
+volatile int scoreOnOff = 0;
+volatile int scoreGuest = 0;
+volatile int scoreHome = 0;
+
+inline void setScore(){
+
+  if (scoreOnOff == 0) {
+    digitsLeft[5] = 0;
+    digitsLeft[1] = 0;
+
+    digitsLeft[0] = 0;
+    digitsLeft[4] = 0;
+
+  } else {
+    
+    if (scoreHome<0 && scoreHome > -10){
+    digitsLeft[0] = B01000000;
+    digitsLeft[4] = numbers[scoreHome * -1];
+  } if (scoreHome<10 && scoreHome > -1){
+    digitsLeft[0] = numbers[scoreHome];
+    digitsLeft[4] = 0;
+  } if (scoreHome>9 && scoreHome <100) {
+    second_score_home = scoreHome %10;
+    first_score_home = (scoreHome-second_score_home)/10; 
+    digitsLeft[4] = numbers[second_score_home];
+    digitsLeft[0] = numbers[first_score_home];
+  } if (scoreHome>99 && scoreHome <200) {
+    second_score_home = scoreHome %10;
+    first_score_home = (scoreHome-second_score_home)/10; 
+    digitsLeft[4] = numbers[second_score_home] + B00000100;
+    digitsLeft[0] = numbers[first_score_home] + B00000100;
+
+  } if (scoreHome>199) {
+    digitsLeft[4] = numbers[9] + B00000100;
+    digitsLeft[0] = numbers[9] + B00000100;
+
+  } if (scoreHome < -11) {
+    scoreHome = 0;
+    digitsLeft[4] = numbers[scoreHome];
+    digitsLeft[0] = numbers[scoreHome];
+  }
+
+  if (scoreGuest<0 && scoreGuest > -10){
+    digitsLeft[1] = B01000000;
+    digitsLeft[5] = numbers[scoreGuest * -1];
+  } if (scoreGuest<10 && scoreGuest > -1){
+    digitsLeft[5] = numbers[scoreGuest];
+    digitsLeft[1] = 0;
+  } if (scoreGuest>9 && scoreGuest <100) {
+    second_score_guest = scoreGuest %10;
+    first_score_guest = (scoreGuest-second_score_guest)/10; 
+    digitsLeft[5] = numbers[second_score_guest];
+    digitsLeft[1] = numbers[first_score_guest];
+  } if (scoreGuest>99 && scoreGuest <200) {
+    second_score_guest = scoreGuest %10;
+    first_score_guest = (scoreGuest-second_score_guest)/10; 
+    digitsLeft[5] = numbers[second_score_guest] + B00000100;
+    digitsLeft[1] = numbers[first_score_guest] + B00000100;
+
+  } if (scoreGuest>199) {
+    digitsLeft[5] = numbers[9] + B00000100;
+    digitsLeft[1] = numbers[9] + B00000100;
+
+  } if (scoreGuest < -11) {
+    scoreGuest = 0;
+    digitsLeft[5] = numbers[scoreGuest];
+    digitsLeft[1] = numbers[scoreGuest];
+  }
+  }
+}
 
 inline void get_weather(){
  
@@ -166,15 +243,23 @@ inline void show_time(int hours, int minutes, int seconds) {
   second_sec = seconds %10;
   first_sec = (seconds-second_sec)/10;
 
-  second_temp = temp %10;
-  first_temp = (temp-second_temp)/10; 
+  if (temp<0) {
+    temp = -temp;
+    second_temp = temp %10;
+    first_temp = (temp-second_temp)/10;
+    temp = -temp;
+    negativeTemp = true;
+  } else {
+    second_temp = temp %10;
+    first_temp = (temp-second_temp)/10; 
+  }
+  
 
-
-  if (multiplexCount == 10 ) {
+  if (multiplexCount == 200 ) {
     get_weather();
   }
 
-  if (multiplexCount>30000){
+  if (multiplexCount>180000){
     multiplexCount =0;
   }
 
@@ -193,8 +278,20 @@ inline void show_time(int hours, int minutes, int seconds) {
     digitsRight[1] = numbers[first_sec];
     digitsRight[5] = numbers[second_sec];
 
-
+    if (negativeTemp){
+      digitsRight[3] = B01000000;
+      negativeTemp = false;
+    } else {
+      digitsRight[3] = 0;
+    }
     digitsRight[4] = numbers[second_temp];
     digitsRight[0] = numbers[first_temp];
+
+    setScore();
+    /** Joe 
+    digitsLeft[3] = B10111010;
+    digitsLeft[1] = numbers[0];
+    digitsLeft[5] = B11100011;
+    */
 
 }

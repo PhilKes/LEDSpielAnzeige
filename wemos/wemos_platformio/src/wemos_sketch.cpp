@@ -17,6 +17,8 @@
 ESP8266WiFiMulti WiFiMulti;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 7200, 60000);
+const int port = 8181;
+WiFiServer cmd_server(8181);
 
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
@@ -25,6 +27,11 @@ int shiftDigitLatchPin=D2;
 int shiftSegDataPin=D0;
 int shiftSegClkPin=D6;
 int shiftSegLatchPin=D5;
+
+int mode=0;
+volatile int hours = 99;
+volatile int minutes = 99;
+volatile int seconds = 99;
 
 
 inline void flashLEDBuiltIn(){
@@ -117,6 +124,9 @@ inline void nextDigit()
     setDigits(digitData);
 }
 
+
+
+
 /* main multiplex Loop */
 inline void multiplexLoop(int multiDel)
  {
@@ -127,6 +137,44 @@ inline void multiplexLoop(int multiDel)
    }while(digitData!=B10000000);
    multiplexCount++;
  }
+
+inline char *handleCmd(uint8_t cmd) {
+  
+  switch(cmd) {
+
+    case 50:
+    scoreGuest = scoreGuest + 1;
+    return "up guest \n";
+
+    case 49:
+    scoreGuest = scoreGuest-1;
+    return "down guest \n";
+
+    case 51:
+    scoreHome = scoreHome +1;
+    return "up home \n";
+    
+    case 52:
+    scoreHome = scoreHome -1;
+    return "down home \n";
+
+    case 97:
+    scoreOnOff = 1;
+    scoreHome = 0;
+    scoreGuest =0;
+    return "on \n";
+
+    case 100:
+    scoreOnOff = 0;
+    return "off \n";
+
+    default:
+    return "";
+  }
+
+}
+
+
 
 // Set pinModes + init Digits&Segments
  void setup() 
@@ -149,7 +197,7 @@ inline void multiplexLoop(int multiDel)
   Serial.begin(115200);
   #endif
 
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -187,35 +235,53 @@ inline void multiplexLoop(int multiDel)
 
   flashLEDBuiltIn();
   timeClient.begin();
-  
+  timeClient.setUpdateInterval(300000);
+  cmd_server.begin();
 
 }
 
-int mode=0;
 
 void loop() {
 
   #if OTA_ENABLED
   ArduinoOTA.handle();
   #endif
+  WiFiClient cmd_client = cmd_server.available();
   
+ 
 
-
+  
   multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
-  //numbersLoop(1000);               //set current Segment values in selected mode (digitsLeft,digitsRight)
-  if (multiplexCount% 10 == 0) {
+
+  while(cmd_client.connected()){
+    multiplexLoop(multiplexDelay);
+    if(cmd_client.available()) {
+      
+      uint8_t buf;
+      size_t length =1;
+      cmd_client.read(&buf, length);
+      cmd_client.write(handleCmd(buf));
+      cmd_client.stop();
+    } 
+    multiplexLoop(multiplexDelay);
+  }
+
+  if (multiplexCount% 50 == 0) {
     /**TODO
     //save_current_disp
     then do update
     refresh
     */
+    //setScore();
     timeClient.update();
 
-    int minutes = timeClient.getMinutes();
-    int hours = timeClient.getHours();
-    int seconds = timeClient.getSeconds();
-
+    minutes = timeClient.getMinutes();
+    hours = timeClient.getHours();
+    seconds = timeClient.getSeconds();
+    
     show_time(hours, minutes, seconds); 
+    
   } 
 
+  
 }
