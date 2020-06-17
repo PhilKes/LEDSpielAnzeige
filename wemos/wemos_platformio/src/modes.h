@@ -3,6 +3,7 @@
 #include <SPI.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
+#include <ESP8266WiFi.h>
 WiFiClient client;
 
 volatile byte numbers[]= 
@@ -116,21 +117,116 @@ volatile int first_h;
 
 volatile bool dispSeconds = true;
 volatile bool dispTemp = true;
-volatile int second_sec;
-volatile int first_sec;
-  
-volatile bool negativeTemp;
-volatile int second_temp;
-volatile int first_temp;
 
-volatile int second_score_home;
-volatile int first_score_home;
-volatile int second_score_guest;
-volatile int first_score_guest;
+volatile bool kabuMode = false;
+volatile bool setNames = false;
+volatile int playerNamesSet = 0;
+String player1 = "Player 1";
+String player2 = "Player 2";
+String player3 = "Player 3";
+String player4 = "Player 4";
+volatile int kabuScore1 = 0;
+volatile int kabuScore2 = 0;
+volatile int kabuScore3 = 0;
+volatile int kabuScore4 = 0;
+
+volatile int zeroDigit;
+volatile int firstDigit;
+volatile int secondDigit;
 
 volatile int scoreOnOff = 0;
 volatile int scoreGuest = 0;
 volatile int scoreHome = 0;
+
+inline void setNumberToTarget(int number, int TargetDisplay) { 
+  /**
+   * Target display is either of the 4 sets of 3 panels which can display numbers between -10 and 199 counting top to bottom left to right 
+   * 1 is Home score
+   * 2 is Guest score
+   * 3 is Middle Clock
+   * 4 is Bottom left
+   * 5 is Bottom right
+   */
+  if (number >= 0){
+    secondDigit = (number%100) %10;
+    firstDigit = ((number%100)-secondDigit)/10;
+  } else {
+    number = -number;
+    secondDigit = (number%100) %10;
+    firstDigit = ((number%100)-secondDigit)/10;
+    number = -number;
+  }
+ 
+
+  if (TargetDisplay == 1) {
+    if (number<0 && number > -10){
+      digitsLeft[0] = B01000000;
+      digitsLeft[4] = numbers[-number];
+    } if (number<10 && number > -1){
+      digitsLeft[4] = numbers[number];
+      digitsLeft[0] = 0;
+    } if (number>9 && number <100) {
+      digitsLeft[4] = numbers[secondDigit];
+      digitsLeft[0] = numbers[firstDigit];
+    } if (number>99 && number <200) {
+      digitsLeft[4] = numbers[secondDigit] + B00000100;
+      digitsLeft[0] = numbers[firstDigit] + B00000100;
+    } if (number >199) {
+      digitsLeft[4] = numbers[9] + B00000100;
+      digitsLeft[0] = numbers[9] + B00000100;
+    }
+  } if (TargetDisplay == 2) {
+    if (number<0 && number > -10){
+      digitsLeft[1] = B01000000;
+      digitsLeft[5] = numbers[-number];
+    } if (number<10 && number > -1){
+      digitsLeft[5] = numbers[number];
+      digitsLeft[1] = 0;
+    } if (number>9 && number <100) {
+      digitsLeft[5] = numbers[secondDigit];
+      digitsLeft[1] = numbers[firstDigit];
+    } if (number>99 && number <200) {
+      digitsLeft[5] = numbers[secondDigit] + B00000100;
+      digitsLeft[1] = numbers[firstDigit] + B00000100;
+    } if (number > 199) {
+      digitsLeft[1] = numbers[9] + B00000100;
+      digitsLeft[5] = numbers[9] + B00000100;
+    }
+  } 
+  
+  
+  
+  if (TargetDisplay == 4) {
+    if (number<0 && number > -100) {
+      digitsRight[3] = B01000000;
+      digitsRight[4] = numbers[secondDigit];
+      digitsRight[0] = numbers[firstDigit];
+    } if (number> 99) {
+      zeroDigit = (number - (firstDigit *10 + secondDigit)) /100;
+      digitsRight[3] = numbers[zeroDigit];
+      digitsRight[4] = numbers[secondDigit];
+      digitsRight[0] = numbers[firstDigit];
+    } else {
+      digitsRight[4] = numbers[secondDigit];
+      digitsRight[0] = numbers[firstDigit];
+    }
+  } if (TargetDisplay ==5 ) {
+      if (number<0 && number > -100) {
+        digitsRight[7] = B01000000;
+        digitsRight[5] = numbers[secondDigit];
+        digitsRight[1] = numbers[firstDigit];
+      } if (number> 99) {
+        zeroDigit = (number - (firstDigit *10 + secondDigit)) /100;
+        digitsRight[7] = numbers[zeroDigit];
+        digitsRight[5] = numbers[secondDigit];
+        digitsRight[1] = numbers[firstDigit];
+      } else {
+        digitsRight[5] = numbers[secondDigit];
+        digitsRight[1] = numbers[firstDigit];
+      }
+  } 
+}
+
 
 inline void setScore(){
 
@@ -142,65 +238,23 @@ inline void setScore(){
     digitsLeft[4] = 0;
 
   } else {
-    
-    if (scoreHome<0 && scoreHome > -10){
-    digitsLeft[0] = B01000000;
-    digitsLeft[4] = numbers[scoreHome * -1];
-  } if (scoreHome<10 && scoreHome > -1){
-    digitsLeft[4] = numbers[scoreHome];
-    digitsLeft[0] = 0;
-  } if (scoreHome>9 && scoreHome <100) {
-    second_score_home = scoreHome %10;
-    first_score_home = (scoreHome-second_score_home)/10; 
-    digitsLeft[4] = numbers[second_score_home];
-    digitsLeft[0] = numbers[first_score_home];
-  } if (scoreHome>99 && scoreHome <200) {
-    scoreHome = scoreHome -100;
-    second_score_home = scoreHome %10;
-    first_score_home = (scoreHome-second_score_home)/10; 
-    scoreHome = scoreHome +100;
-    digitsLeft[4] = numbers[second_score_home] + B00000100;
-    digitsLeft[0] = numbers[first_score_home] + B00000100;
-
-  } if (scoreHome>199) {
-    digitsLeft[4] = numbers[9] + B00000100;
-    digitsLeft[0] = numbers[9] + B00000100;
-    scoreHome = 199;
-
-  } if (scoreHome < -11) {
-    scoreHome = 0;
-    digitsLeft[4] = numbers[scoreHome];
-    digitsLeft[0] = numbers[scoreHome];
+    if(scoreHome <-9){
+      scoreHome = -9;
+    } if (scoreHome >199){
+      scoreHome = 199;
+    }  if(scoreGuest <-9){
+      scoreGuest = -9;
+    } if (scoreGuest >199){
+      scoreGuest = 199;
+    }   
+    setNumberToTarget(scoreHome, 1);
+    setNumberToTarget(scoreGuest, 2);
   }
-
-  if (scoreGuest<0 && scoreGuest > -10){
-    digitsLeft[1] = B01000000;
-    digitsLeft[5] = numbers[scoreGuest * -1];
-  } if (scoreGuest<10 && scoreGuest > -1){
-    digitsLeft[5] = numbers[scoreGuest];
-    digitsLeft[1] = 0;
-  } if (scoreGuest>9 && scoreGuest <100) {
-    second_score_guest = scoreGuest %10;
-    first_score_guest = (scoreGuest-second_score_guest)/10; 
-    digitsLeft[5] = numbers[second_score_guest];
-    digitsLeft[1] = numbers[first_score_guest];
-  } if (scoreGuest>99 && scoreGuest <200) {
-    scoreGuest = scoreGuest -100;
-    second_score_guest = scoreGuest %10;
-    first_score_guest = (scoreGuest-second_score_guest)/10; 
-    scoreGuest = scoreGuest +100;
-    digitsLeft[5] = numbers[second_score_guest] + B00000100;
-    digitsLeft[1] = numbers[first_score_guest] + B00000100;
-
-  } if (scoreGuest>199) {
-    digitsLeft[5] = numbers[9] + B00000100;
-    digitsLeft[1] = numbers[9] + B00000100;
-    scoreGuest = 199;
-  } if (scoreGuest < -11) {
-    scoreGuest = 0;
-    digitsLeft[5] = numbers[scoreGuest];
-    digitsLeft[1] = numbers[scoreGuest];
-  }
+  if (kabuMode){
+    setNumberToTarget(kabuScore1, 1);
+    setNumberToTarget(kabuScore2, 2);
+    setNumberToTarget(kabuScore3, 4);
+    setNumberToTarget(kabuScore4, 5);
   }
 }
 
@@ -220,20 +274,10 @@ inline void get_weather(){
       DynamicJsonDocument root(512);
       //StaticJsonDocument<5000> root; 
       deserializeJson(root, payload);
-      // Parse JSON object
-      //JsonObject& root = jsonBuffer.parseObject(payload);
-
-      //if (!root.success()) {
-        //Serial.println(F("Parsing failed!"));
-        //return;
-      //}
- 
       temp = (int)(root["main"]["temp"]) ;        // get temperature
     }
  
     http.end();   //Close connection
- 
-
 
 }
 
@@ -247,29 +291,16 @@ inline void show_time(int hours, int minutes, int seconds) {
   second_h = hours%10;
   first_h = (hours - second_h)/10;
 
-  second_sec = seconds %10;
-  first_sec = (seconds-second_sec)/10;
-
-  if (temp<0) {
-    temp = -temp;
-    second_temp = temp %10;
-    first_temp = (temp-second_temp)/10;
-    temp = -temp;
-    negativeTemp = true;
-  } else {
-    second_temp = temp %10;
-    first_temp = (temp-second_temp)/10; 
-  }
-  
-
   if (multiplexCount == 200 ) {
     if (dispTemp){
-      get_weather();
+      if (WiFi.status() == WL_CONNECTED){
+        get_weather();
+      }
     }
   }
 
   if (multiplexCount>180000){
-    multiplexCount =0;
+    multiplexCount = 0;
   }
 
   for (byte i = 0; i < 8; i++)
@@ -285,26 +316,14 @@ inline void show_time(int hours, int minutes, int seconds) {
     digitsRight[6] = numbers[second_h];
 
     if (dispSeconds){
-      digitsRight[1] = numbers[first_sec];
-      digitsRight[5] = numbers[second_sec];
+      setNumberToTarget(seconds, 5);
     } else {
       digitsRight[1] = 0;
       digitsRight[5] = 0;
     }
-
     if (dispTemp){
-      if (negativeTemp){
-        digitsRight[3] = B01000000;
-        negativeTemp = false;
-      } else {
-        digitsRight[3] = 0;
-      }
-      digitsRight[4] = numbers[second_temp];
-      digitsRight[0] = numbers[first_temp];
-    } else {
-      digitsRight[4] = 0;
-      digitsRight[0] = 0;      
-    }
+      setNumberToTarget(temp, 4);
+    } 
 
     setScore();
 }
