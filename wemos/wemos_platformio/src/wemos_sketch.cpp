@@ -1,5 +1,4 @@
 #include <modes.h>
-
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
@@ -16,11 +15,11 @@
 
 ESP8266WiFiMulti WiFiMulti;
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 7200, 60000);
+NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 3600, 60000);
 const int port = 8181;
 WiFiServer cmd_server(8181);
 
-String readString = String(100); 
+String readString = String(100); //string to get commands from cmd_client
 
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
@@ -35,6 +34,44 @@ volatile int hours = 99;
 volatile int minutes = 99;
 volatile int seconds = 99;
 
+
+inline int isDaylightSaving(){
+    /**Summer and winter time settings for time zone Berlin:
+   * 25.10.20: 1603591221 summer to winter: 7200 -> 3600
+   * 
+   * 28.03.21: 1616889601 winter to summer: 3600 -> 7200
+   * 31.10.21: 1635645601 summe to winter 
+   * 
+   * 27.03.22: 1648339201
+   * 30.10.22: 1667084401
+   * 
+   * 26.03.23: 1679788801
+   * 29.10.23: 1698534001
+   * 
+   * 31.03.24: 1711843201
+   * 27.10.24: 1729983601
+   */
+  int now = timeClient.getEpochTime();
+  if (now< 1603591221){
+    return 7200;
+  } if (now>=1603591221 && now <  1616889601) {
+    return 3600;
+  } if (now >=1616889601 && now < 1635645601) {
+    return 7200;
+  } if (now >= 1635645601 && now < 1648339201) {
+    return 3600;
+  } if (now >= 1648339201 && now < 1667084401) {
+    return 7200;
+  } if (now >= 1667084401 && now < 1679788801) {
+    return 3600;
+  } if (now >= 1679788801 && now < 1698534001) {
+    return 7200;
+  } if (now >= 1698534001 && now < 1711843201) {
+    return 3600;
+  } if (now >= 1711843201 && now < 1729983601) {
+    return 7200;
+  } return 3600;
+}
 
 inline void flashLEDBuiltIn(){
   digitalWrite(LED_BUILTIN, HIGH);
@@ -139,6 +176,9 @@ inline void multiplexLoop(int multiDel)
       delayMicroseconds(multiDel - dimDelay);
    }while(digitData!=B10000000);
    multiplexCount++;
+   if (multiplexCount >180000){
+     multiplexCount = 0;
+   }
  }
 
 inline void showWebInterface() {
@@ -318,7 +358,7 @@ inline void showWebInterface() {
             cmd_client.println("<table border='1' width='500' cellpadding='5'>");
             cmd_client.println("<tr bgColor='#222222'>");
             cmd_client.println("<td bgcolor='#222222'><font face='Verdana' color='#CFCFCF' size='2'>"+player1+": "+String(kabuScore1)+"<br></font></td>");
-            cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=p1Points min='-10' max ='100'></form></td>");    
+            cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=p1Points min='-2' max ='100'></form></td>");    
 
             cmd_client.println("</tr>");
             cmd_client.println("<tr bgColor='#222222'>");
@@ -328,12 +368,12 @@ inline void showWebInterface() {
             cmd_client.println("</tr>");
             cmd_client.println("<tr bgColor='#222222'>");
             cmd_client.println("<td bgcolor='#222222'><font face='Verdana' color='#CFCFCF' size='2'>"+player3+": "+String(kabuScore3)+"<br></font></td>");
-            cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=p3Points min='-10' max ='100'></form></td>"); 
+            cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=p3Points min='-2' max ='100'></form></td>"); 
 
             cmd_client.println("</tr>");
             cmd_client.println("<tr bgColor='#222222'>");
             cmd_client.println("<td bgcolor='#222222'><font face='Verdana' color='#CFCFCF' size='2'>"+player4+": "+String(kabuScore4)+"<br></font></td>");
-            cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=p4Points min='-10' max ='100'></form></td>"); 
+            cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=number name=p4Points min='-2' max ='100'></form></td>"); 
             cmd_client.println("</table>");
           } else {
             if (playerNamesSet == 0) {
@@ -443,8 +483,11 @@ inline void showWebInterface() {
   #endif
 
   flashLEDBuiltIn();
+
+  
   timeClient.begin();
-  timeClient.setUpdateInterval(120000);
+  timeClient.setTimeOffset(isDaylightSaving());
+  timeClient.setUpdateInterval(updateIntervallTime * 60000);
   cmd_server.begin();
 
 }
@@ -461,22 +504,23 @@ void loop() {
 
     showWebInterface();
 
-    if (multiplexCount% 50 == 0) {
+    if (multiplexCount% 30 == 0) {
       timeClient.update();
 
       minutes = timeClient.getMinutes();
       hours = timeClient.getHours();
       seconds = timeClient.getSeconds();
       
-      show_time(hours, minutes, seconds); 
+      mainLoop(hours, minutes, seconds); 
     } 
   } else {
     multiplexLoop(multiplexDelay);
     if (multiplexCount% 50 == 0) {
       minutes = timeClient.getMinutes();
       hours = timeClient.getHours();
-      seconds = timeClient.getSeconds();     
-      show_time(hours, minutes, seconds); 
+      seconds = timeClient.getSeconds();   
+
+      mainLoop(hours, minutes, seconds); 
     }
   }
 }
