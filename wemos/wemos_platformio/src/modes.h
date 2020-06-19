@@ -115,8 +115,8 @@ volatile int first_min;
 volatile int second_h;
 volatile int first_h;
 
-volatile bool dispSeconds = true;
-volatile bool dispTemp = true;
+volatile bool dispSeconds = false;
+volatile bool dispTemp = false;
 
 volatile bool kabuMode = false;
 volatile bool setNames = false;
@@ -137,6 +137,9 @@ volatile int secondDigit;
 volatile int scoreOnOff = 0;
 volatile int scoreGuest = 0;
 volatile int scoreHome = 0;
+
+volatile int dimBrightness = 10; 
+volatile int dimDelay = 0;
 
 inline void setNumberToTarget(int number, int TargetDisplay) { 
   /**
@@ -280,7 +283,6 @@ inline void get_weather(){
     http.end();   //Close connection
 
 }
-
 
 
 inline void show_time(int hours, int minutes, int seconds) {

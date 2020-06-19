@@ -51,7 +51,7 @@ inline void setSegs(byte left,byte right)
     // shift out the 16 bits:
     shiftOut(shiftSegDataPin, shiftSegClkPin, LSBFIRST, right);  
     shiftOut(shiftSegDataPin, shiftSegClkPin, LSBFIRST, left);  
-
+  
     digitalWrite(shiftSegLatchPin, HIGH);
 }
 
@@ -126,16 +126,17 @@ inline void nextDigit()
     setDigits(digitData);
 }
 
-
-
-
 /* main multiplex Loop */
 inline void multiplexLoop(int multiDel)
  {
    do{
       nextDigit();
-      setSegs(digitsLeft[displayIdx],digitsRight[displayIdx]); //Load Segments for new Digits
-      delayMicroseconds(multiDel);
+      if (dimBrightness != 10) {
+        setSegs(0,0); //Load Segments for new Digits
+        delayMicroseconds(dimDelay);
+      }
+      setSegs(digitsLeft[displayIdx],digitsRight[displayIdx]);
+      delayMicroseconds(multiDel - dimDelay);
    }while(digitData!=B10000000);
    multiplexCount++;
  }
@@ -197,6 +198,15 @@ inline void showWebInterface() {
           int index = readString.indexOf("quantityGuest");
           String num = readString.substring(index+14);
           scoreGuest = scoreGuest + num.toInt();
+        }
+        if (readString.indexOf("brightness") > -1){
+          int index = readString.indexOf("brightness");
+          String num = readString.substring(index+11);
+          dimBrightness = num.toInt();
+          dimDelay = multiplexDelay - ((dimBrightness) * multiplexDelay/10) - 1;
+        } 
+        if(readString.indexOf("all=Set") > -1){
+          
         }
         if(readString.indexOf("all=Kabu+mode+On+or+Off") > -1){
           if (kabuMode){
@@ -273,8 +283,11 @@ inline void showWebInterface() {
         cmd_client.print("<body bgcolor='#444444'>");
         //---Überschrift---
         cmd_client.println("<br><hr />");
-        cmd_client.println("<h1><div align='center'><font color='#2076CD'>Arduino Webserver for Score</font color></div></h1>");
+        cmd_client.println("<h1><div align='center'><font color='#2076CD'>Anzeigetafel Arduino</font color></div></h1>");
         cmd_client.println("<hr /><br>");
+        cmd_client.println("<div align='left'><font face='Verdana' color='#FFFFFF'>Set the level of Brightness </font></div>");
+        cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=range name=brightness min='0' max='10' value='"+String(dimBrightness)+"' onchange='this.form.submit()' step='1'></form></td>"); 
+        cmd_client.println("<br>");  
         cmd_client.println("<form method=get><input type=submit name=all value='Scores On or Off'></form>");
         cmd_client.println("<br>");   
         if (scoreOnOff){     
@@ -295,9 +308,6 @@ inline void showWebInterface() {
           cmd_client.println("</tr>");
           cmd_client.println("</table>");
         }
-        cmd_client.println("<br>");
-        cmd_client.println("<form method=get><input type=submit name=all value='Display Seconds On or Off'></form>");
-        cmd_client.println("<form method=get><input type=submit name=all value='Display Temperature On or Off'></form>");
         cmd_client.println("<br>");
         cmd_client.println("<form method=get><input type=submit name=all value='Kabu mode On or Off'></form>");
         cmd_client.println("<br>");
@@ -361,6 +371,10 @@ inline void showWebInterface() {
             }
           }
         }
+        cmd_client.println("<br>");
+        cmd_client.println("<form method=get><input type=submit name=all value='Display Seconds On or Off'></form>");
+        cmd_client.println("<form method=get><input type=submit name=all value='Display Temperature On or Off'></form>");
+        cmd_client.println("<br>");
 
         cmd_client.println("</body></html>");
         readString="";
@@ -430,7 +444,7 @@ inline void showWebInterface() {
 
   flashLEDBuiltIn();
   timeClient.begin();
-  timeClient.setUpdateInterval(300000);
+  timeClient.setUpdateInterval(120000);
   cmd_server.begin();
 
 }
