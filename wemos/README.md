@@ -49,7 +49,7 @@
  **Note**: _multiplexCount_ = Amount of multiplexLoop() calls for Timing
 
  
- ## [wemosplatformio_react](./wemos_react_platformio)
+ ## [wemos_platformio_react](./wemos_platformio_react)
  * **WiFi** + **OTA** for Upload
  * React Web App over HTTP **WebServer**
  * User Interface to control Modes
