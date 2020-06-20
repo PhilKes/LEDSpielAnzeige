@@ -113,6 +113,7 @@ class LEDScoreboardService : public StatefulService<LEDScoreboardState> {
   LEDScoreboardService(AsyncWebServer* server,
                     SecurityManager* securityManager);
   void begin();
+  void loop();
 
  private:
   HttpEndpoint<LEDScoreboardState> _httpEndpoint;

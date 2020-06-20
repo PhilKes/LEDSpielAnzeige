@@ -1,4 +1,5 @@
 #include <LEDScoreboardService.h>
+#include "wemos/wemos_sketch.h"
 
 LEDScoreboardService::LEDScoreboardService(AsyncWebServer* server,
                                      SecurityManager* securityManager
@@ -39,12 +40,14 @@ LEDScoreboardService::LEDScoreboardService(AsyncWebServer* server,
 void LEDScoreboardService::begin() {
   std::copy(LEDScoreboardState::numbers, LEDScoreboardState::numbers + 8, _state.digitsLeft);
   std::copy(LEDScoreboardState::numbers, LEDScoreboardState::numbers + 8, _state.digitsRight);
+  wemosSetup();
   onConfigUpdated();
 }
 
 void LEDScoreboardService::onConfigUpdated() {
   //digitalWrite(BLINK_LED, _state.ledOn ? LED_ON : LED_OFF);
 }
+
 
 void LEDScoreboardService::registerConfig() {
 
@@ -61,4 +64,9 @@ void LEDScoreboardService::registerConfig() {
 
   String payload;
   serializeJson(doc, payload);
+}
+
+void LEDScoreboardService::loop(){
+  //wemos_platformio loop
+  wemosLoop();
 }

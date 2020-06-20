@@ -6,6 +6,7 @@
  2. [Build & Upload](#building--uploading) the Project
  3. Connect to ESP8266 React WiFi network
  4. Set WiFi Settings for local WiFi connection
+ 5. Preferably set a Static IP for Local Development (see [.env.development](./interface/.env.development) )
 
  
 ### Building & Uploading

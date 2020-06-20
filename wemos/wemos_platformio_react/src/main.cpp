@@ -39,4 +39,5 @@ void setup() {
 void loop() {
   // run the framework's loop function
   esp8266React.loop();
+  ledScoreboardService.loop();
 }
