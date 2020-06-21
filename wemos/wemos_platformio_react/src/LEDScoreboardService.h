@@ -3,6 +3,7 @@
 
 #include <HttpEndpoint.h>
 #include <WebSocketTxRx.h>
+#include <NTPStatus.h>
 
 // Note that the built-in LED is on when the pin is low on most NodeMCU boards.
 // This is because the anode is tied to VCC and the cathode to the GPIO 4 (Arduino pin 2).
@@ -19,15 +20,15 @@
 
 class LEDScoreboardState {
   
- public:
+public:
+
   static const char numbers[10];
 
 //current Display data of all 8 left Displays
 char digitsLeft[8]={numbers[8]}; 
 
-
 //current Display data of all 8 right Displays
- char digitsRight[8]={numbers[8]};
+char digitsRight[8]={numbers[8]};
 
   static void read(LEDScoreboardState& settings, JsonObject& root) {
     const JsonArray& jsonDigitsLeft= root.createNestedArray("digitsLeft");
@@ -78,7 +79,7 @@ char digitsLeft[8]={numbers[8]};
   }
 
   static StateUpdateResult haUpdate(JsonObject& root, LEDScoreboardState
-& ledScoreboardState) {
+  & ledScoreboardState) {
 
     //ledScoreboardState.digitsLeft=root["digitsLeft"];
     //ledScoreboardState.digitsRight=root["digitsRight"];
@@ -109,15 +110,24 @@ char digitsLeft[8]={numbers[8]};
 };
 
 class LEDScoreboardService : public StatefulService<LEDScoreboardState> {
+  private:
+
+
  public:
   LEDScoreboardService(AsyncWebServer* server,
-                    SecurityManager* securityManager);
+                    SecurityManager* securityManager,
+                    NTPStatus ntpStatus);
   void begin();
   void loop();
+
+  NTPStatus* getNtpStatus() {
+    return &_ntpStatus;
+  }
 
  private:
   HttpEndpoint<LEDScoreboardState> _httpEndpoint;
   WebSocketTxRx<LEDScoreboardState> _webSocket;
+  NTPStatus _ntpStatus;
 
   void registerConfig();
   void onConfigUpdated();

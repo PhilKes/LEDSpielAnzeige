@@ -2,7 +2,8 @@
 #include "wemos/wemos_sketch.h"
 
 LEDScoreboardService::LEDScoreboardService(AsyncWebServer* server,
-                                     SecurityManager* securityManager
+                                     SecurityManager* securityManager,
+                                     NTPStatus ntpStatus
                                     ) :
     _httpEndpoint(LEDScoreboardState::read,
                   LEDScoreboardState::update,
@@ -17,8 +18,9 @@ LEDScoreboardService::LEDScoreboardService(AsyncWebServer* server,
                server,
                LEDSCOREBOARD_SETTINGS_SOCKET_PATH,
                securityManager,
-               AuthenticationPredicates::IS_AUTHENTICATED){
-
+               AuthenticationPredicates::IS_AUTHENTICATED),
+    _ntpStatus(ntpStatus)
+               {
   // configure settings service update handler to update LED state
   addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
 }
@@ -68,5 +70,5 @@ void LEDScoreboardService::registerConfig() {
 
 void LEDScoreboardService::loop(){
   //wemos_platformio loop
-  wemosLoop();
+  wemosLoop(digitsLeft,digitsRight,&_ntpStatus);
 }

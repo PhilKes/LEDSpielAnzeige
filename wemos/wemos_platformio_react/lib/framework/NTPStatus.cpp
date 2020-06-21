@@ -1,5 +1,4 @@
 #include <NTPStatus.h>
-
 NTPStatus::NTPStatus(AsyncWebServer* server, SecurityManager* securityManager) {
   server->on(NTP_STATUS_SERVICE_PATH,
              HTTP_GET,
@@ -37,4 +36,9 @@ void NTPStatus::ntpStatus(AsyncWebServerRequest* request) {
 
   response->setLength();
   request->send(response);
+}
+
+time_t NTPStatus::getTime(){
+  time_t now = time(nullptr);
+  return now;
 }

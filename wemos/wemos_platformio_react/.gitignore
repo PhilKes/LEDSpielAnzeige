@@ -7,3 +7,4 @@
 /interface/build
 /interface/node_modules
 .vscode
+/src/wemos/wifi_settings.h

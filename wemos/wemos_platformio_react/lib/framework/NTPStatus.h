@@ -23,6 +23,7 @@
 class NTPStatus {
  public:
   NTPStatus(AsyncWebServer* server, SecurityManager* securityManager);
+  time_t getTime();
 
  private:
   void ntpStatus(AsyncWebServerRequest* request);

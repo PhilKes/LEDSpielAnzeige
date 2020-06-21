@@ -67,6 +67,10 @@ class ESP8266React {
   }
 #endif
 
+  NTPStatus getNTPStatus(){
+    return _ntpStatus;
+  }
+
   void factoryReset() {
     _factoryResetService.factoryReset();
   }

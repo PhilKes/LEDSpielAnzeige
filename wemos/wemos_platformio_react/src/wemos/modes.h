@@ -23,7 +23,7 @@ volatile byte numbers[]=
 
 
 //current Display data of all 8 left Displays
-volatile byte digitsLeft[]= 
+volatile char digitsLeft[]= 
 {
   numbers[0], //C1
   numbers[1], //C2
@@ -36,7 +36,7 @@ volatile byte digitsLeft[]=
 };
 
 //current Display data of all 8 right Displays
-volatile byte digitsRight[]= 
+volatile char digitsRight[]= 
 {
   numbers[0], //B1
   numbers[1], //B2
@@ -432,7 +432,7 @@ inline void resetAll() {
 
 inline void mainLoop(int hours, int minutes, int seconds) {
 
-  get_weather();
+  //get_weather();
 
   resetAll();
 
@@ -443,9 +443,9 @@ inline void mainLoop(int hours, int minutes, int seconds) {
   if (dispSeconds){
     setNumberToTarget(seconds, bottomRightDisplay);
   }
-  if (dispTemp){
+  /*if (dispTemp){
     setNumberToTarget(temp, bottomLeftDisplay);
-  } 
+  } */
 
-  setScore();
+  //setScore();
 }

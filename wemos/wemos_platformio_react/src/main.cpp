@@ -11,12 +11,14 @@ ESP8266React esp8266React(&server, &LittleFS);
 LightStateService lightStateService = LightStateService(&server,
                                                         esp8266React.getSecurityManager());
 LEDScoreboardService ledScoreboardService = LEDScoreboardService(&server,
-                                                        esp8266React.getSecurityManager());
-
+                                                        esp8266React.getSecurityManager(),
+                                                        esp8266React.getNTPStatus());
+#define DEBUG false
 void setup() {
   // start serial and filesystem
+  #if DEBUG
   Serial.begin(SERIAL_BAUD_RATE);
-
+  #endif
   // start the file system (must be done before starting the framework)
 #ifdef ESP32
   LittleFS.begin(true);
@@ -26,6 +28,12 @@ void setup() {
 
   // start the framework and demo project
   esp8266React.begin();
+  /*esp8266React.getNTPSettingsService()->addUpdateHandler(
+    [&](const String& originId) {
+      Serial.println("NTP updated");
+    });
+    }
+  );*/
 
   // load the initial light settings
   lightStateService.begin();

@@ -1,19 +1,11 @@
 #include "modes.h"
 #include <ArduinoOTA.h>
-#include <NTPClient.h>
 #include "wifi_settings.h"
-#include <WiFiUdp.h>
 
 //DEBUG true, for USB debugging
-#define DEBUG true
+#define DEBUG false
 //OTA_ENABLED true, for Over The Air Updates (WiFi sketch upload)
 #define OTA_ENABLED true
-
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 3600, 60000);
-const int port = 8181;
-
-String readString = String(100); //string to get commands from cmd_client
 
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
@@ -27,45 +19,6 @@ int mode=0;
 volatile int hours = 99;
 volatile int minutes = 99;
 volatile int seconds = 99;
-
-
-inline int isDaylightSaving(){
-    /**Summer and winter time settings for time zone Berlin:
-   * 25.10.20: 1603591221 summer to winter: 7200 -> 3600
-   * 
-   * 28.03.21: 1616889601 winter to summer: 3600 -> 7200
-   * 31.10.21: 1635645601 summe to winter 
-   * 
-   * 27.03.22: 1648339201
-   * 30.10.22: 1667084401
-   * 
-   * 26.03.23: 1679788801
-   * 29.10.23: 1698534001
-   * 
-   * 31.03.24: 1711843201
-   * 27.10.24: 1729983601
-   */
-  int now = timeClient.getEpochTime();
-  if (now< 1603591221){
-    return 7200;
-  } if (now>=1603591221 && now <  1616889601) {
-    return 3600;
-  } if (now >=1616889601 && now < 1635645601) {
-    return 7200;
-  } if (now >= 1635645601 && now < 1648339201) {
-    return 3600;
-  } if (now >= 1648339201 && now < 1667084401) {
-    return 7200;
-  } if (now >= 1667084401 && now < 1679788801) {
-    return 3600;
-  } if (now >= 1679788801 && now < 1698534001) {
-    return 7200;
-  } if (now >= 1698534001 && now < 1711843201) {
-    return 3600;
-  } if (now >= 1711843201 && now < 1729983601) {
-    return 7200;
-  } return 3600;
-}
 
 inline void flashLEDBuiltIn(){
   digitalWrite(LED_BUILTIN, HIGH);
@@ -147,9 +100,15 @@ inline void multiplexLoop(int multiDel)
    }
  }
 
+inline void setTime(time_t time){
+  struct tm *tmp = localtime(&time);
+  hours=tmp->tm_hour;
+  minutes=tmp->tm_min;
+  seconds=tmp->tm_sec;
+}
+
 // Set pinModes + init Digits&Segments
- void wemosSetup() 
- {
+ void wemosSetup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -164,34 +123,18 @@ inline void multiplexLoop(int multiDel)
   initDigits();
   initSegs();
 
-  /*#if DEBUG
-  Serial.begin(115200);
-  #endif*/
-
-  //Serial.begin(9600);
   flashLEDBuiltIn();
-
-  
-  timeClient.begin();
-  timeClient.setTimeOffset(isDaylightSaving());
-  timeClient.setUpdateInterval(updateIntervallTime * 60000);
-
 }
 
-
-void wemosLoop() {
+//TEST LOOP to display current Time from NTP
+void wemosLoop(volatile char digitsLeft[],volatile char digitsRight[], NTPStatus* ntpStatus) {
 
     multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
     if (multiplexCount% 30 == 0) {
-      timeClient.update();
-
-      minutes = timeClient.getMinutes();
-      hours = timeClient.getHours();
-      seconds = timeClient.getSeconds();
-      
-      mainLoop(hours, minutes, seconds); 
+      setTime(ntpStatus->getTime());
       #if DEBUG
-      flashLEDBuiltIn();
+      Serial.printf("%d:%d:%d\n", hours,minutes,seconds);
       #endif
+      mainLoop(hours, minutes, seconds); 
     } 
 }
