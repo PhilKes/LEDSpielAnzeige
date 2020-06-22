@@ -7,6 +7,7 @@
 
 WiFiClient client;
 
+//every bit represents one of the 7 segment led parts on one panel therefore numbers[3] would display the number 3 on that panel
 volatile byte numbers[]= 
 {
   B10111011,
@@ -59,16 +60,21 @@ const int multiplexDelay=800;
 
 
 /**
- * Hilfsvariablen 
+ * Helpers 
  */
 
-volatile int temp = -99;
-unsigned int updateIntervallWeather = 30; // in minutes 
-int updateIntervallTime = 15; //in minutes 
-unsigned long timeWeather = millis();
+volatile int lastUpdate; //helper to check the time updates
+const int port = 80;//standard port for webinterface
+struct tm tm;
+volatile int temp = -99; //init temp
+volatile unsigned int updateIntervallWeather = 30; // in minutes 
+volatile int updateIntervallTime = 15; //in minutes 
+unsigned long timeWeather = millis(); //helper to check weather updates
 const unsigned long oneMinuteinMillis = 60000;
+const unsigned long oneSecondinMillis = 1000;
 
 //static variables for easier handling of displaying numbers
+//this maps the displays by name
 const int turnDisplayOff = -200;
 const int minutesDisplay = 6;
 const  int hoursDisplay = 5;
@@ -85,9 +91,10 @@ const int bottomRightPoints = 3;
 const int topLeftArrow = 4;
 const int topRightArrow = 5;
 
-volatile bool dispSeconds = false;
+volatile bool dispSeconds = false; //helper to be able to turn on and off either seconds or temperature
 volatile bool dispTemp = false;
 
+//helpers for play modes 
 volatile bool kabuMode = false;
 volatile bool setNames = false;
 volatile int playerNamesSet = 0;
@@ -100,11 +107,12 @@ volatile int kabuScore2 = 0;
 volatile int kabuScore3 = 0;
 volatile int kabuScore4 = 0;
 
+//helper for actually displaying numbers
 volatile int zeroDigit;
 volatile int firstDigit;
 volatile int secondDigit;
 
-volatile int scoreOnOff = 0;
+volatile bool scoreOnOff = false;
 volatile int scoreGuest = 0;
 volatile int scoreHome = 0;
 
@@ -115,44 +123,6 @@ volatile int dimDelay = 0;
 // speedInMs: time for each number in milliseconds
 volatile int num=0;
 int digit=0;
-inline void numbersLoop(int speedInMs){
-    if(multiplexCount > (speedInMs*1000)/(multiplexDelay*8))
-    {
-        multiplexCount=0;
-        num++; 
-        if(num> 9)
-        {
-            num=0;
-        }
-        for (byte i = 0; i < 8; i++)
-        {
-            digitsLeft[i]=numbers[num];
-            digitsRight[i]=numbers[num];
-        }
-
-    }
-}
-
-inline void digitMappings(int speedInMs)
-{
-  for (byte i = 0; i < 8; i++)
-  {
-    digitsLeft[i]=0;
-    digitsRight[i]=0;
-  }
-  if(multiplexCount > (speedInMs*1000)/(multiplexDelay*8))
-  {
-    multiplexCount=0;
-    digit++;
-    if(digit >7)
-    {
-      digit=0;
-      delay(1000); //to highlight last digit reached
-    }
-  }
-  digitsLeft[digit]=B11111111;
-  digitsRight[digit]=B11111111;
-}
 
 inline void setNumberToTarget(int number, int TargetDisplay) { 
   /**
@@ -367,7 +337,7 @@ inline  void setPoints(int points) {
 
 inline void setScore(){
 
-  if (scoreOnOff == 0) {
+  if (!scoreOnOff) {
     setNumberToTarget(turnDisplayOff, topRightDisplay);
     setNumberToTarget(turnDisplayOff, topRightDisplay);
 
@@ -392,36 +362,7 @@ inline void setScore(){
   }
 }
 
-inline void get_weather(){
-
-    if (millis() - timeWeather > updateIntervallWeather * oneMinuteinMillis ) {
-      if (dispTemp){
-        if (WiFi.status() == WL_CONNECTED){
- 
-          HTTPClient http;  //Declare an object of class HTTPClient
-      
-          // specify request destination
-          http.begin("http://api.openweathermap.org/data/2.5/weather?q=Konstanz,DE&units=metric&appid=28f8833d6494314b297aba01d98a6f72");
-      
-          int httpCode = http.GET();  // send the request
-      
-          if (httpCode > 0) { // check the returning code
-      
-            String payload = http.getString();   //Get the request response payload
-            //Serial.println(payload);
-            DynamicJsonDocument root(512);
-            //StaticJsonDocument<5000> root; 
-            deserializeJson(root, payload);
-            temp = (int)(root["main"]["temp"]) ;        // get temperature
-          }
-      
-          http.end();   //Close connection
-          timeWeather = millis();
-        }
-      }
-    }
-}
-
+//resets all dsiplays to show nothing 
 inline void resetAll() {
   for (byte i = 0; i < 8; i++)
     {
@@ -430,12 +371,28 @@ inline void resetAll() {
     }
 }
 
+inline void getWeather(){
+
+    if ((millis() - timeWeather) > (updateIntervallWeather * oneMinuteinMillis) ) { 
+      if (dispTemp){
+          HTTPClient http;  //Declare an object of class HTTPClient
+          // specify request destination
+          http.begin("http://api.openweathermap.org/data/2.5/weather?q=Konstanz,DE&units=metric&appid=28f8833d6494314b297aba01d98a6f72");
+          int httpCode = http.GET();  // send the request
+          if (httpCode > 0) { // check the returning code
+            String payload = http.getString();   //Get the request response payload
+            DynamicJsonDocument root(512);
+            deserializeJson(root, payload);
+            temp = (int)(root["main"]["temp"]) ;        // get temperature
+          }
+          http.end();   //Close connection
+          timeWeather = millis();
+      }
+    }
+}
+
 inline void mainLoop(int hours, int minutes, int seconds) {
-
-  get_weather();
-
   resetAll();
-
   setNumberToTarget(hours, hoursDisplay);
   setNumberToTarget(minutes, minutesDisplay);
   setPoints(middleMiddlePoints);

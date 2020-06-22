@@ -5,7 +5,7 @@
 #include <ArduinoOTA.h>
 #include <wifi_settings.h>
 #include <ESP8266WiFiMulti.h>
-#include <NTPClient.h>
+#include <time.h>
 
 
 //DEBUG true, for USB debugging
@@ -13,13 +13,13 @@
 //OTA_ENABLED true, for Over The Air Updates (WiFi sketch upload)
 #define OTA_ENABLED true
 
+//init of the command interface as simple static html site
 ESP8266WiFiMulti WiFiMulti;
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP,"europe.pool.ntp.org", 3600, 60000);
-const int port = 8181;
-WiFiServer cmd_server(8181);
+WiFiServer cmd_server(port);
 
-String readString = String(100); //string to get commands from cmd_client
+//string to get commands from cmd_client
+String readString = String(100);
 
 int shiftDigitDataPin=D1;
 int shiftDigitClkPin=D3;
@@ -30,48 +30,7 @@ int shiftSegClkPin=D6;
 int shiftSegLatchPin=D5;
 
 int mode=0;
-volatile int hours = 99;
-volatile int minutes = 99;
-volatile int seconds = 99;
 
-
-inline int isDaylightSaving(){
-    /**Summer and winter time settings for time zone Berlin:
-   * 25.10.20: 1603591221 summer to winter: 7200 -> 3600
-   * 
-   * 28.03.21: 1616889601 winter to summer: 3600 -> 7200
-   * 31.10.21: 1635645601 summe to winter 
-   * 
-   * 27.03.22: 1648339201
-   * 30.10.22: 1667084401
-   * 
-   * 26.03.23: 1679788801
-   * 29.10.23: 1698534001
-   * 
-   * 31.03.24: 1711843201
-   * 27.10.24: 1729983601
-   */
-  int now = timeClient.getEpochTime();
-  if (now< 1603591221){
-    return 7200;
-  } if (now>=1603591221 && now <  1616889601) {
-    return 3600;
-  } if (now >=1616889601 && now < 1635645601) {
-    return 7200;
-  } if (now >= 1635645601 && now < 1648339201) {
-    return 3600;
-  } if (now >= 1648339201 && now < 1667084401) {
-    return 7200;
-  } if (now >= 1667084401 && now < 1679788801) {
-    return 3600;
-  } if (now >= 1679788801 && now < 1698534001) {
-    return 7200;
-  } if (now >= 1698534001 && now < 1711843201) {
-    return 3600;
-  } if (now >= 1711843201 && now < 1729983601) {
-    return 7200;
-  } return 3600;
-}
 
 inline void flashLEDBuiltIn(){
   digitalWrite(LED_BUILTIN, HIGH);
@@ -92,6 +51,7 @@ inline void setSegs(byte left,byte right)
     digitalWrite(shiftSegLatchPin, HIGH);
 }
 
+//set the new set of diigts to display the numbers in the multiplex loop 
 inline void setDigits(byte value)
 {
     digitalWrite(shiftDigitLatchPin, LOW);
@@ -111,36 +71,7 @@ inline void initSegs()
   setSegs(0,0);
 }
 
-void segsMapping()
-{
-  while(true){
-    setDigits(255);
-    byte val=1;
-    while(val>0){
-       setSegs(val,val);
-       val=val<<1;
-       delay(1000);
-    }
-    delay(3000);
-  }  
-}
-
-void digitsMap()
-{
-  while(true){
-    setSegs(255,255);
-    byte val=1;
-    while(val>0){
-       setDigits(val);
-       val=val<<1;
-       delay(1000);
-    }
-    delay(2500);
-  }  
-}
-
 volatile byte digitData=B10000000;
-
 //Index of current active Display (starting with 1)
 volatile byte displayIdx=0;
 
@@ -169,7 +100,7 @@ inline void multiplexLoop(int multiDel)
    do{
       nextDigit();
       if (dimBrightness != 10) {
-        setSegs(0,0); //Load Segments for new Digits
+        setSegs(0,0); //turn off digits for a part of the multiplex time to dim the brightness
         delayMicroseconds(dimDelay);
       }
       setSegs(digitsLeft[displayIdx],digitsRight[displayIdx]);
@@ -181,13 +112,20 @@ inline void multiplexLoop(int multiDel)
    }
  }
 
+inline void allOn() {
+    for (byte i = 0; i < 8; i++)
+    {
+      digitsLeft[i]=255;
+      digitsRight[i]=255;
+    }
+}
+
+//the static html on ip: 192.168.178.55 or per local dns led.intern
 inline void showWebInterface() {
     WiFiClient cmd_client = cmd_server.available();
     if (cmd_client){
     while(cmd_client.connected())
     {
-      //multiplexLoop(multiplexDelay);
-
       char c = cmd_client.read();
       if (readString.length() < 100) {
         readString = readString + c; 
@@ -207,9 +145,9 @@ inline void showWebInterface() {
         }
         if(readString.indexOf("all=Scores+On+or+Off") > -1){
           if (scoreOnOff) {
-            scoreOnOff = 0;
+            scoreOnOff = false;
           } else {
-            scoreOnOff = 1;
+            scoreOnOff = true;
             scoreHome = 0;
             scoreGuest = 0;
           }
@@ -225,8 +163,9 @@ inline void showWebInterface() {
           if (dispTemp){
             dispTemp = false;
           } else {
-            get_weather();
             dispTemp = true;
+            timeWeather = 0;
+            getWeather();
           }
         }      
         if (readString.indexOf("quantityHome") > -1){
@@ -261,6 +200,7 @@ inline void showWebInterface() {
             dispSeconds = false;
             dispTemp = false;
             scoreOnOff = false;
+            playerNamesSet = 0;
             kabuScore1 = 0;
             kabuScore2 = 0;
             kabuScore3 = 0;
@@ -323,7 +263,7 @@ inline void showWebInterface() {
         cmd_client.print("<body bgcolor='#444444'>");
         //---Überschrift---
         cmd_client.println("<br><hr />");
-        cmd_client.println("<h1><div align='center'><font color='#2076CD'>Anzeigetafel Arduino</font color></div></h1>");
+        cmd_client.println("<h1><div align='left'><font color='#DF7401'>Anzeigetafel Arduino</font color></div></h1>");
         cmd_client.println("<hr /><br>");
         cmd_client.println("<div align='left'><font face='Verdana' color='#FFFFFF'>Set the level of Brightness </font></div>");
         cmd_client.println("<td align='center' bgcolor='#222222'><form method=get><input type=range name=brightness min='0' max='10' value='"+String(dimBrightness)+"' onchange='this.form.submit()' step='1'></form></td>"); 
@@ -446,8 +386,6 @@ inline void showWebInterface() {
   Serial.begin(115200);
   #endif
 
-  //Serial.begin(9600);
-
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
@@ -484,12 +422,12 @@ inline void showWebInterface() {
 
   flashLEDBuiltIn();
 
-  
-  timeClient.begin();
-  timeClient.setTimeOffset(isDaylightSaving());
-  timeClient.setUpdateInterval(updateIntervallTime * 60000);
-  cmd_server.begin();
+  //begin the clock on this steup and establish the time 
+  configTime("CET-1CEST,M3.5.0,M10.5.0/3", "fritz.box",  "de.pool.ntp.org");
+  delay(100);
 
+  lastUpdate  = millis();
+  cmd_server.begin(); //begin the wifi server 
 }
 
 
@@ -500,27 +438,28 @@ void loop() {
   #endif
 
   if (WiFi.status() == WL_CONNECTED){
-    multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
 
+    multiplexLoop(multiplexDelay);  //multiplex Digits, load current Segment values
     showWebInterface();
+    getWeather();
 
     if (multiplexCount% 30 == 0) {
-      timeClient.update();
+      time_t now = time(&now);
+      localtime_r(&now, &tm);
 
-      minutes = timeClient.getMinutes();
-      hours = timeClient.getHours();
-      seconds = timeClient.getSeconds();
-      
-      mainLoop(hours, minutes, seconds); 
+      //update the time from the router or external server on the predefined time interval
+      if ((millis()-lastUpdate) > (updateIntervallTime*oneMinuteinMillis)){
+        configTime("CET-1CEST,M3.5.0,M10.5.0/3", "fritz.box",  "de.pool.ntp.org");
+        lastUpdate = millis();
+      }
+      mainLoop(tm.tm_hour, tm.tm_min, tm.tm_sec); 
     } 
-  } else {
+  } else { //if wifi is down dont update the time
     multiplexLoop(multiplexDelay);
-    if (multiplexCount% 50 == 0) {
-      minutes = timeClient.getMinutes();
-      hours = timeClient.getHours();
-      seconds = timeClient.getSeconds();   
-
-      mainLoop(hours, minutes, seconds); 
+    if (multiplexCount% 50 == 0) {  
+      time_t now = time(&now);
+      localtime_r(&now, &tm);
+      mainLoop(tm.tm_hour, tm.tm_min, tm.tm_sec); 
     }
   }
 }
