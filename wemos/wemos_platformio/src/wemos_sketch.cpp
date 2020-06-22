@@ -3,7 +3,7 @@
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include <wifi_settings.h>
+//#include <wifi_settings.h>
 #include <ESP8266WiFiMulti.h>
 #include <time.h>
 
